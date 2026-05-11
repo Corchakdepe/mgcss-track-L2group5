@@ -13,4 +13,21 @@ public class Cliente {
         this.email = email;
         this.tipoCliente = tipoCliente;
     }
+
+    // SOLO GETTERS (Cero Setters)
+    public Long getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public TipoCliente getTipoCliente() {
+        return tipoCliente;
+    }
 }
