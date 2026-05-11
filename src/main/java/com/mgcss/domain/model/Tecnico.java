@@ -16,4 +16,16 @@ public class Tecnico {
     public boolean estaActivo() {
         return activo;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
+    }
 }
