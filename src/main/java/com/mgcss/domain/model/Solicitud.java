@@ -23,6 +23,27 @@ public class Solicitud {
         tecnicoAsignado = null;
     }
 
+    // SOLO GETTERS (Cero Setters)
+    public Long getId() {
+        return id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public LocalDate getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public LocalDate getFechaCierre() {
+        return fechaCierre;
+    }
+
     public void cerrar() {
         if (estadoSolicitud != EstadoSolicitud.EN_PROCESO) {
             throw new IllegalStateException("No se puede cerrar si no esta en proceso.");
