@@ -1,8 +1,14 @@
 package com.mgcss.domain.model;
 
+import lombok.Getter;
+
 public class Tecnico {
+    // SOLO GETTERS (Cero Setters)
+    @Getter
     private final Long id;
+    @Getter
     private final String nombre;
+    @Getter
     private final String especialidad;
     private boolean activo;
 
@@ -17,15 +23,4 @@ public class Tecnico {
         return activo;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getEspecialidad() {
-        return especialidad;
-    }
 }
