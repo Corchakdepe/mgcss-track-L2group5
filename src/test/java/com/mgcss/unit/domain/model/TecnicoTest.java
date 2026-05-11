@@ -1,11 +1,9 @@
 package com.mgcss.unit.domain.model;
 
-import com.mgcss.domain.model.*;
+import com.mgcss.domain.model.Tecnico;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TecnicoTest {
 
