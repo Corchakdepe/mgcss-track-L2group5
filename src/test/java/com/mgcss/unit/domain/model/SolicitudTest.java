@@ -36,7 +36,7 @@ class SolicitudTest {
     }
 
     @Test
-    void obtieneLosAtributosCorrectamente() {
+    void obtieneLosAtributosBasicosCorrectamente() {
         Cliente cliente = new Cliente(1L, "", "@", TipoCliente.PREMIUM);
         Solicitud solicitud = new Solicitud(1L, cliente, "", LocalDate.now(), EstadoSolicitud.ABIERTA, null);
         assertEquals(1L, solicitud.getId());
