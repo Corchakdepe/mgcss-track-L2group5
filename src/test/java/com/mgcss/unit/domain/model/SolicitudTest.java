@@ -43,5 +43,6 @@ class SolicitudTest {
         assertEquals(cliente, solicitud.getCliente());
         assertEquals("", solicitud.getDescripcion());
         assertEquals(LocalDate.now(), solicitud.getFechaCreacion());
+        assertEquals(null, solicitud.getFechaCierre());
     }
 }
