@@ -18,10 +18,9 @@ public class Solicitud {
     @Getter
     private EstadoSolicitud estadoSolicitud;
     @Getter
-    private final LocalDate fechaCierre;
+    private LocalDate fechaCierre;
     private Tecnico tecnicoAsignado;
 
-    // MAYBE : a futuro si da tiempo que estadoSolicitud en el constructor sea ABIERTA por defecto, y cambie a EN_PROCESO una vez se le asigne un Tecnico?
     public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, LocalDate fechaCierre) {
         this.id = id;
         this.cliente = cliente;
@@ -40,13 +39,23 @@ public class Solicitud {
     }
 
     public void asignar(Tecnico tecnicoAsignado) {
+        if (estadoSolicitud != EstadoSolicitud.ABIERTA) {
+            throw new IllegalStateException("Solo se puede asignar técnicos a solicitudes abiertas.");
+        }
         if (!tecnicoAsignado.estaActivo()) {
             throw new IllegalArgumentException("No se puede asignar un tecnico inactivo.");
         }
+
         this.tecnicoAsignado = tecnicoAsignado;
+        estadoSolicitud = EstadoSolicitud.EN_PROCESO;
     }
 
-    public void reabrir() { // Por implementar
+    public void reabrir() {
+        if (estadoSolicitud != EstadoSolicitud.CERRADA) {
+            throw new IllegalStateException("Solo se pueden reabrir solicitudes que estén cerradas");
+        }
+        estadoSolicitud = EstadoSolicitud.EN_PROCESO;
+        fechaCierre = null;
     }
 
     public boolean tieneTecnicoAsignado() {
