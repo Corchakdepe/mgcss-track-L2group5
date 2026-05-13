@@ -36,6 +36,7 @@ public class Solicitud {
             throw new IllegalStateException("No se puede cerrar si no esta en proceso.");
         }
         estadoSolicitud = EstadoSolicitud.CERRADA;
+        fechaCierre = LocalDate.now();
     }
 
     public void asignar(Tecnico tecnicoAsignado) {
