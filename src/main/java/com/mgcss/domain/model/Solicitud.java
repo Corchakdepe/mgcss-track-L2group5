@@ -1,15 +1,23 @@
 package com.mgcss.domain.model;
 
+import lombok.Getter;
+
 import java.time.LocalDate;
 
 public class Solicitud {
 
+    // SOLO GETTERS (Cero Setters)
+    @Getter
     private final Long id;
-    private Cliente cliente;
-    private String descripcion;
-    private LocalDate fechaCreacion;
+    @Getter
+    private final Cliente cliente;
+    @Getter
+    private final String descripcion;
+    @Getter
+    private final LocalDate fechaCreacion;
     private EstadoSolicitud estadoSolicitud;
-    private LocalDate fechaCierre;
+    @Getter
+    private final LocalDate fechaCierre;
     private Tecnico tecnicoAsignado;
 
     // MAYBE : a futuro si da tiempo que estadoSolicitud en el constructor sea ABIERTA por defecto, y cambie a EN_PROCESO una vez se le asigne un Tecnico?
