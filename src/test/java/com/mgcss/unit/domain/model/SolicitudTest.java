@@ -45,4 +45,23 @@ class SolicitudTest {
         assertEquals(LocalDate.now(), solicitud.getFechaCreacion());
         assertNull(solicitud.getFechaCierre());
     }
+
+    @Test
+    void reabrirSolicitudCerradaEstaPermitido() {
+        // Se crea la solicitud y se cambia a EN_PROCESO, asignandole un tecnico activo
+        Solicitud solicitud = new Solicitud(1L, new Cliente(1L, "", "@", TipoCliente.PREMIUM), "", LocalDate.now(), EstadoSolicitud.ABIERTA, null);
+        Tecnico tecnicoActivo = new Tecnico(1L, "", "", true);
+        solicitud.asignar(tecnicoActivo);
+
+        // Se cierra la solicitud
+        solicitud.cerrar();
+        assertEquals(EstadoSolicitud.CERRADA, solicitud.getEstadoSolicitud());
+
+        // Se reabre la solicitud
+        solicitud.reabrir();
+
+        // Se verifica el estado final
+        assertEquals(EstadoSolicitud.EN_PROCESO, solicitud.getEstadoSolicitud());
+        assertNull(solicitud.getFechaCierre());
+    }
 }

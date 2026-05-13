@@ -15,6 +15,7 @@ public class Solicitud {
     private final String descripcion;
     @Getter
     private final LocalDate fechaCreacion;
+    @Getter
     private EstadoSolicitud estadoSolicitud;
     @Getter
     private final LocalDate fechaCierre;
@@ -45,7 +46,12 @@ public class Solicitud {
         this.tecnicoAsignado = tecnicoAsignado;
     }
 
+    public void reabrir() { // Por implementar
+    }
+
     public boolean tieneTecnicoAsignado() {
         return tecnicoAsignado != null;
     }
+
+
 }
