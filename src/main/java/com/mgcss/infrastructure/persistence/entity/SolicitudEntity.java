@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -41,4 +42,9 @@ public class SolicitudEntity {
     @ManyToOne
     @JoinColumn(name = "tecnico_id")
     private TecnicoEntity tecnicoAsignado;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "solicitud_historial", joinColumns = @JoinColumn(name = "solicitud_id"))
+    private List<EstadoChangeEntity> historial;
+
 }
