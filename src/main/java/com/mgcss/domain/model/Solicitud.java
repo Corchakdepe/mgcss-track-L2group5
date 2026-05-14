@@ -3,6 +3,8 @@ package com.mgcss.domain.model;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Solicitud {
 
@@ -20,6 +22,7 @@ public class Solicitud {
     @Getter
     private LocalDate fechaCierre;
     private Tecnico tecnicoAsignado;
+    private List<EstadoChange> historial;
 
     public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, LocalDate fechaCierre) {
         this.id = id;
@@ -29,6 +32,7 @@ public class Solicitud {
         this.estadoSolicitud = estadoSolicitud;
         this.fechaCierre = fechaCierre;
         tecnicoAsignado = null;
+        historial = new ArrayList<>();
     }
 
     public void cerrar() {
@@ -37,6 +41,8 @@ public class Solicitud {
         }
         estadoSolicitud = EstadoSolicitud.CERRADA;
         fechaCierre = LocalDate.now();
+
+        historial.add(new EstadoChange(EstadoSolicitud.EN_PROCESO, EstadoSolicitud.CERRADA));
     }
 
     public void asignar(Tecnico tecnicoAsignado) {
@@ -49,6 +55,8 @@ public class Solicitud {
 
         this.tecnicoAsignado = tecnicoAsignado;
         estadoSolicitud = EstadoSolicitud.EN_PROCESO;
+
+        historial.add(new EstadoChange(EstadoSolicitud.ABIERTA, EstadoSolicitud.EN_PROCESO));
     }
 
     public void reabrir() {
@@ -57,6 +65,8 @@ public class Solicitud {
         }
         estadoSolicitud = EstadoSolicitud.EN_PROCESO;
         fechaCierre = null;
+
+        historial.add(new EstadoChange(EstadoSolicitud.CERRADA, EstadoSolicitud.EN_PROCESO));
     }
 
     public boolean tieneTecnicoAsignado() {
@@ -64,4 +74,7 @@ public class Solicitud {
     }
 
 
+    public List<EstadoChange> getHistorial() {
+        return historial;
+    }
 }

@@ -4,6 +4,7 @@ import com.mgcss.domain.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -80,7 +81,7 @@ class SolicitudTest {
         // Reabrir (CERRADA -> EN_PROCESO)
         solicitud.reabrir();
 
-        // Verificar el estado final FIXME: ni getHistorial() ni EstadoChange estan aun implementados
+        // Verificar el estado final
         List<EstadoChange> historial = solicitud.getHistorial();
         assertEquals(3, historial.size());
         assertEquals(EstadoSolicitud.ABIERTA, historial.get(0).getEstadoAnterior());
