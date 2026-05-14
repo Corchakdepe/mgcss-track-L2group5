@@ -64,4 +64,26 @@ class SolicitudTest {
         assertEquals(EstadoSolicitud.EN_PROCESO, solicitud.getEstadoSolicitud());
         assertNull(solicitud.getFechaCierre());
     }
+
+    @Test
+    void registraCambiosDeEstadoCorrectamente() {
+        // Crear solicitud (Estado inicial: ABIERTA)
+        Solicitud solicitud = new Solicitud(1L, new Cliente(1L, "", "@", TipoCliente.PREMIUM), "", LocalDate.now(), EstadoSolicitud.ABIERTA, null);
+
+        // Asignar técnico (ABIERTA -> EN_PROCESO)
+        Tecnico tecnicoActivo = new Tecnico(1L, "", "", true);
+        solicitud.asignar(tecnicoActivo);
+
+        // Cerrar (EN_PROCESO -> CERRADA)
+        solicitud.cerrar();
+
+        // Reabrir (CERRADA -> EN_PROCESO)
+        solicitud.reabrir();
+
+        // Verificar el estado final FIXME: ni getHistorial() ni EstadoChange estan aun implementados
+        List<EstadoChange> historial = solicitud.getHistorial();
+        assertEquals(3, historial.size());
+        assertEquals(EstadoSolicitud.ABIERTA, historial.get(0).getEstadoAnterior());
+        assertEquals(EstadoSolicitud.EN_PROCESO, historial.get(0).getEstadoNuevo());
+    }
 }
