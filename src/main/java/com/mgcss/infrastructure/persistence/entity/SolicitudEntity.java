@@ -1,6 +1,5 @@
 package com.mgcss.infrastructure.persistence.entity;
 
-import com.mgcss.domain.model.EstadoChange;
 import com.mgcss.domain.model.EstadoSolicitud;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -48,11 +47,11 @@ public class SolicitudEntity {
     @CollectionTable()
     private List<EstadoChangeEntity> historial;
 
-    public void setHistorial(List<EstadoChange> historial) {
-//TODO
+    public void setHistorial(List<EstadoChangeEntity> historial) {
+        this.historial = historial;
     }
 
-    public List<EstadoChange> getHistorial() {
-        return null; //TODO
+    public List<EstadoChangeEntity> getHistorial() {
+        return historial;
     }
 }
