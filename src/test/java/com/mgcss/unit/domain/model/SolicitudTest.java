@@ -83,8 +83,18 @@ class SolicitudTest {
 
         // Verificar el estado final
         List<EstadoChange> historial = solicitud.getHistorial();
+
+        // 1. Numero de cambios de estado esperados
         assertEquals(3, historial.size());
+
+        // 2. Primera transicion
         assertEquals(EstadoSolicitud.ABIERTA, historial.get(0).getEstadoAnterior());
         assertEquals(EstadoSolicitud.EN_PROCESO, historial.get(0).getEstadoNuevo());
+        // 3. Segunda transicion
+        assertEquals(EstadoSolicitud.EN_PROCESO, historial.get(1).getEstadoAnterior());
+        assertEquals(EstadoSolicitud.CERRADA, historial.get(1).getEstadoNuevo());
+        // 4. Segunda transicion
+        assertEquals(EstadoSolicitud.CERRADA, historial.get(2).getEstadoAnterior());
+        assertEquals(EstadoSolicitud.EN_PROCESO, historial.get(2).getEstadoNuevo());
     }
 }
