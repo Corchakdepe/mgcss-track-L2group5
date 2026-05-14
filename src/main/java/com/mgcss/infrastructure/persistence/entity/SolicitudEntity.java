@@ -1,5 +1,6 @@
 package com.mgcss.infrastructure.persistence.entity;
 
+import com.mgcss.domain.model.EstadoChange;
 import com.mgcss.domain.model.EstadoSolicitud;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -41,4 +43,16 @@ public class SolicitudEntity {
     @ManyToOne
     @JoinColumn(name = "tecnico_id")
     private TecnicoEntity tecnicoAsignado;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable()
+    private List<EstadoChangeEntity> historial;
+
+    public void setHistorial(List<EstadoChange> historial) {
+//TODO
+    }
+
+    public List<EstadoChange> getHistorial() {
+        return null; //TODO
+    }
 }
