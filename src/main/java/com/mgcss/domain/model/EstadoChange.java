@@ -1,19 +1,17 @@
 package com.mgcss.domain.model;
 
+import lombok.Getter;
+
+// MAYBE hacer record class
+@Getter
 public class EstadoChange {
-    private EstadoSolicitud estadoAnterior;
-    private EstadoSolicitud estadoNuevo;
+    private final EstadoSolicitud estadoAnterior;
+    private final EstadoSolicitud estadoNuevo;
+    // MAYBE: añadir campo que almacene el momento de cambio de estado
 
-    public EstadoChange(EstadoSolicitud estadoSolicitud, EstadoSolicitud estadoSolicitud1) {
-        this.estadoAnterior = estadoSolicitud;
-        this.estadoNuevo = estadoSolicitud1;
+    public EstadoChange(EstadoSolicitud estadoAnterior, EstadoSolicitud estadoNuevo) {
+        this.estadoAnterior = estadoAnterior;
+        this.estadoNuevo = estadoNuevo;
     }
 
-    public EstadoSolicitud getEstadoAnterior() {
-        return estadoAnterior;
-    }
-
-    public EstadoSolicitud getEstadoNuevo() {
-        return estadoNuevo;
-    }
 }

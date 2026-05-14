@@ -22,7 +22,8 @@ public class Solicitud {
     @Getter
     private LocalDate fechaCierre;
     private Tecnico tecnicoAsignado;
-    private List<EstadoChange> historial;
+    @Getter
+    private final List<EstadoChange> historial;
 
     public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, LocalDate fechaCierre) {
         this.id = id;
@@ -73,8 +74,4 @@ public class Solicitud {
         return tecnicoAsignado != null;
     }
 
-
-    public List<EstadoChange> getHistorial() {
-        return historial;
-    }
 }
