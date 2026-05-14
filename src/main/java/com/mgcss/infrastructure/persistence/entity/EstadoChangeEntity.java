@@ -4,7 +4,9 @@ import com.mgcss.domain.model.EstadoSolicitud;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.Getter;
 
+@Getter
 @Embeddable
 public class EstadoChangeEntity {
 
@@ -22,11 +24,4 @@ public class EstadoChangeEntity {
         this.estadoNuevo = estadoNuevo;
     }
 
-    public EstadoSolicitud getEstadoAnterior() {
-        return estadoAnterior;
-    }
-
-    public EstadoSolicitud getEstadoNuevo() {
-        return estadoNuevo;
-    }
 }

@@ -90,15 +90,7 @@ class JpaSolicitudRepositoryIT {
         solicitudEntity.setEstadoSolicitud(solicitud.getEstadoSolicitud());
         solicitudEntity.setFechaCierre(solicitud.getFechaCierre());
         solicitudEntity.setTecnicoAsignado(tecnicoSaved);
-        var historialEntity =
-                solicitud
-                        .getHistorial()
-                        .stream()
-                        .map(estadoChange ->
-                                new EstadoChangeEntity(
-                                        estadoChange.getEstadoAnterior(),
-                                        estadoChange.getEstadoNuevo()))
-                        .toList();
+        var historialEntity = solicitud.getHistorial().stream().map(estadoChange -> new EstadoChangeEntity(estadoChange.getEstadoAnterior(), estadoChange.getEstadoNuevo())).toList();
         solicitudEntity.setHistorial(historialEntity);
         SolicitudEntity solicitudSaved = repositorySolicitud.save(solicitudEntity);
 
@@ -106,12 +98,14 @@ class JpaSolicitudRepositoryIT {
         Optional<SolicitudEntity> found = repositorySolicitud.findById(solicitudSaved.getId());
 
         // Verificamos si el mapeo se ha llevado a cabo correcatemente
-        int numeroDeCambiosEstado = solicitud.getHistorial().size();
+        var historial = solicitud.getHistorial();
+        int numeroDeCambiosEstado = historial.size();
         assertThat(found).isPresent();
-        assertThat(found.get().getHistorial().size()).isEqualTo(numeroDeCambiosEstado);
+        assertThat(found.get().getHistorial()).hasSize(numeroDeCambiosEstado);
+
         for (int i = 0; i < numeroDeCambiosEstado; i++) {
-            assertThat(found.get().getHistorial().get(i).getEstadoAnterior()).isEqualTo(solicitud.getHistorial().get(i).getEstadoAnterior());
-            assertThat(found.get().getHistorial().get(i).getEstadoNuevo()).isEqualTo(solicitud.getHistorial().get(i).getEstadoNuevo());
+            assertThat(historialEntity.get(i).getEstadoAnterior()).isEqualTo(historial.get(i).getEstadoAnterior());
+            assertThat(historialEntity.get(i).getEstadoNuevo()).isEqualTo(historial.get(i).getEstadoNuevo());
         }
     }
 

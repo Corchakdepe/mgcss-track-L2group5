@@ -44,14 +44,7 @@ public class SolicitudEntity {
     private TecnicoEntity tecnicoAsignado;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable()
+    @CollectionTable(name = "solicitud_historial", joinColumns = @JoinColumn(name = "solicitud_id"))
     private List<EstadoChangeEntity> historial;
 
-    public void setHistorial(List<EstadoChangeEntity> historial) {
-        this.historial = historial;
-    }
-
-    public List<EstadoChangeEntity> getHistorial() {
-        return historial;
-    }
 }
