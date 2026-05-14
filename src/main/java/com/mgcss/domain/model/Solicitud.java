@@ -18,12 +18,12 @@ public class Solicitud {
     @Getter
     private final LocalDate fechaCreacion;
     @Getter
+    private final List<EstadoChange> historial;
+    @Getter
     private EstadoSolicitud estadoSolicitud;
     @Getter
     private LocalDate fechaCierre;
     private Tecnico tecnicoAsignado;
-    @Getter
-    private final List<EstadoChange> historial;
 
     public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, LocalDate fechaCierre) {
         this.id = id;
@@ -40,10 +40,13 @@ public class Solicitud {
         if (estadoSolicitud != EstadoSolicitud.EN_PROCESO) {
             throw new IllegalStateException("No se puede cerrar si no esta en proceso.");
         }
+        var estadoAnterior = this.estadoSolicitud;
+
+
         estadoSolicitud = EstadoSolicitud.CERRADA;
         fechaCierre = LocalDate.now();
 
-        historial.add(new EstadoChange(EstadoSolicitud.EN_PROCESO, EstadoSolicitud.CERRADA));
+        cambiarEstado(estadoAnterior, estadoSolicitud);
     }
 
     public void asignar(Tecnico tecnicoAsignado) {
@@ -53,25 +56,31 @@ public class Solicitud {
         if (!tecnicoAsignado.estaActivo()) {
             throw new IllegalArgumentException("No se puede asignar un tecnico inactivo.");
         }
+        var estadoAnterior = this.estadoSolicitud;
 
         this.tecnicoAsignado = tecnicoAsignado;
         estadoSolicitud = EstadoSolicitud.EN_PROCESO;
 
-        historial.add(new EstadoChange(EstadoSolicitud.ABIERTA, EstadoSolicitud.EN_PROCESO));
+        cambiarEstado(estadoAnterior, estadoSolicitud);
     }
 
     public void reabrir() {
         if (estadoSolicitud != EstadoSolicitud.CERRADA) {
             throw new IllegalStateException("Solo se pueden reabrir solicitudes que estén cerradas");
         }
+        var estadoAnterior = this.estadoSolicitud;
+
         estadoSolicitud = EstadoSolicitud.EN_PROCESO;
         fechaCierre = null;
 
-        historial.add(new EstadoChange(EstadoSolicitud.CERRADA, EstadoSolicitud.EN_PROCESO));
+        cambiarEstado(estadoAnterior, estadoSolicitud);
     }
 
     public boolean tieneTecnicoAsignado() {
         return tecnicoAsignado != null;
     }
 
+    private void cambiarEstado(EstadoSolicitud anterior, EstadoSolicitud nuevo) {
+        historial.add(new EstadoChange(anterior, nuevo));
+    }
 }
