@@ -37,6 +37,13 @@ class SolicitudTest {
     }
 
     @Test
+    void asignarTecnicoConSolicitudNoAbiertaNoEstaPermitido() {
+        Solicitud solicitud = new Solicitud(1L, new Cliente(1L, "", "@", TipoCliente.PREMIUM), "", LocalDate.now(), EstadoSolicitud.CERRADA, null);
+        Tecnico tecnicoActivo = new Tecnico(1L, "", "", true);
+        assertThrows(IllegalStateException.class, () -> solicitud.asignar(tecnicoActivo));
+    }
+
+    @Test
     void obtieneLosAtributosCorrectamente() {
         Cliente cliente = new Cliente(1L, "", "@", TipoCliente.PREMIUM);
         Solicitud solicitud = new Solicitud(1L, cliente, "", LocalDate.now(), EstadoSolicitud.ABIERTA, null);
