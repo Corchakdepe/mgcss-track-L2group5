@@ -75,14 +75,15 @@ class SolicitudServiceTest {
     }
 
     @Test
-    void deberCrearSolicitudCorrectamente() {
+    void debeCrearSolicitudCorrectamente() {
         // Simular dependencias externas
         when(repoCliente.findById(cliente.getId())).thenReturn(Optional.of(cliente));
         when(repoSolicitud.save(any(Solicitud.class))).thenAnswer(i -> i.getArgument(0));
         // 2. Act: Ejecutar servicio
-        Solicitud creada = sut.crearSolicitud(cliente.getId(), "");
+        solicitud = sut.crearSolicitud(cliente.getId(), "");
         // 3. Assert: Verificar la orquestacion
-        verify(repoSolicitud).save(creada);
+        verify(repoSolicitud).save(solicitud);
     }
 
+    
 }
