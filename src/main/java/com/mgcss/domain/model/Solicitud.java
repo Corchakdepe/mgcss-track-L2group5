@@ -23,6 +23,7 @@ public class Solicitud {
     private EstadoSolicitud estadoSolicitud;
     @Getter
     private LocalDate fechaCierre;
+    @Getter
     private Tecnico tecnicoAsignado;
 
     public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, LocalDate fechaCierre) {
@@ -34,6 +35,17 @@ public class Solicitud {
         this.fechaCierre = fechaCierre;
         tecnicoAsignado = null;
         historial = new ArrayList<>();
+    }
+
+    public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, LocalDate fechaCierre, Tecnico tecnicoAsignado, List<EstadoChange> historial) {
+        this.id = id;
+        this.cliente = cliente;
+        this.descripcion = descripcion;
+        this.fechaCreacion = fechaCreacion;
+        this.estadoSolicitud = estadoSolicitud;
+        this.fechaCierre = fechaCierre;
+        this.tecnicoAsignado = tecnicoAsignado;
+        this.historial = new ArrayList<>(historial);
     }
 
     public void cerrar() {
