@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +30,9 @@ public class SolicitudController {
 
     @PostMapping
     @Operation(summary = "Crear solicitud", description = "Crea una nueva solicitud de incidencia")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Solicitud creada correctamente",
-                    content = @Content(schema = @Schema(implementation = SolicitudResponseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
-    })
+    @ApiResponse(responseCode = "200", description = "Solicitud creada correctamente",
+            content = @Content(schema = @Schema(implementation = SolicitudResponseDTO.class)))
+    @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
     public ResponseEntity<SolicitudResponseDTO> crear(@RequestBody SolicitudRequestDTO request) {
         Solicitud solicitud = solicitudService.crearSolicitud(request.getClienteId(), request.getDescripcion());
         return ResponseEntity.ok(toResponseDTO(solicitud));
@@ -43,11 +40,9 @@ public class SolicitudController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Consultar solicitud", description = "Obtiene los detalles de una solicitud por su ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Solicitud encontrada",
-                    content = @Content(schema = @Schema(implementation = SolicitudResponseDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Solicitud no encontrada")
-    })
+    @ApiResponse(responseCode = "200", description = "Solicitud encontrada",
+            content = @Content(schema = @Schema(implementation = SolicitudResponseDTO.class)))
+    @ApiResponse(responseCode = "404", description = "Solicitud no encontrada")
     public ResponseEntity<SolicitudResponseDTO> consultar(@PathVariable Long id) {
         Solicitud solicitud = solicitudService.consultarSolicitud(id);
         return ResponseEntity.ok(toResponseDTO(solicitud));
@@ -67,12 +62,10 @@ public class SolicitudController {
 
     @PutMapping("/{id}/asignar")
     @Operation(summary = "Asignar técnico", description = "Asigna un técnico a una solicitud abierta")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Técnico asignado correctamente",
-                    content = @Content(schema = @Schema(implementation = SolicitudResponseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Solicitud no está abierta o técnico inactivo"),
-            @ApiResponse(responseCode = "404", description = "Solicitud o técnico no encontrado")
-    })
+    @ApiResponse(responseCode = "200", description = "Técnico asignado correctamente",
+            content = @Content(schema = @Schema(implementation = SolicitudResponseDTO.class)))
+    @ApiResponse(responseCode = "400", description = "Solicitud no está abierta o técnico inactivo")
+    @ApiResponse(responseCode = "404", description = "Solicitud o técnico no encontrado")
     public ResponseEntity<SolicitudResponseDTO> asignarTecnico(
             @PathVariable Long id,
             @RequestBody AsignarTecnicoRequestDTO request) {
@@ -83,12 +76,10 @@ public class SolicitudController {
 
     @PutMapping("/{id}/estado")
     @Operation(summary = "Cambiar estado", description = "Cierra una solicitud en proceso")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Estado actualizado correctamente",
-                    content = @Content(schema = @Schema(implementation = SolicitudResponseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "La solicitud no está en proceso"),
-            @ApiResponse(responseCode = "404", description = "Solicitud no encontrada")
-    })
+    @ApiResponse(responseCode = "200", description = "Estado actualizado correctamente",
+            content = @Content(schema = @Schema(implementation = SolicitudResponseDTO.class)))
+    @ApiResponse(responseCode = "400", description = "La solicitud no está en proceso")
+    @ApiResponse(responseCode = "404", description = "Solicitud no encontrada")
     public ResponseEntity<SolicitudResponseDTO> cambiarEstado(@PathVariable Long id) {
         Solicitud solicitud = solicitudService.cambiarEstado(id);
         return ResponseEntity.ok(toResponseDTO(solicitud));
@@ -96,12 +87,10 @@ public class SolicitudController {
 
     @PatchMapping("/{id}/reabrir")
     @Operation(summary = "Reabrir solicitud", description = "Reabre una solicitud que estaba cerrada")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Solicitud reabierta correctamente",
-                    content = @Content(schema = @Schema(implementation = SolicitudResponseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "La solicitud no está cerrada"),
-            @ApiResponse(responseCode = "404", description = "Solicitud no encontrada")
-    })
+    @ApiResponse(responseCode = "200", description = "Solicitud reabierta correctamente",
+            content = @Content(schema = @Schema(implementation = SolicitudResponseDTO.class)))
+    @ApiResponse(responseCode = "400", description = "La solicitud no está cerrada")
+    @ApiResponse(responseCode = "404", description = "Solicitud no encontrada")
     public ResponseEntity<SolicitudResponseDTO> reabrir(@PathVariable Long id) {
         Solicitud solicitud = solicitudService.reabrirSolicitud(id);
         return ResponseEntity.ok(toResponseDTO(solicitud));

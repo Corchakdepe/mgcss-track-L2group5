@@ -6,24 +6,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class Solicitud {
 
     // SOLO GETTERS (Cero Setters)
-    @Getter
     private final Long id;
-    @Getter
     private final Cliente cliente;
-    @Getter
     private final String descripcion;
-    @Getter
     private final LocalDate fechaCreacion;
-    @Getter
     private final List<EstadoChange> historial;
-    @Getter
     private EstadoSolicitud estadoSolicitud;
-    @Getter
     private LocalDate fechaCierre;
-    @Getter
     private Tecnico tecnicoAsignado;
 
     public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, LocalDate fechaCierre) {
@@ -37,15 +30,26 @@ public class Solicitud {
         historial = new ArrayList<>();
     }
 
-    public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, LocalDate fechaCierre, Tecnico tecnicoAsignado, List<EstadoChange> historial) {
+    public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, LocalDate fechaCierre, DatosAdicionales datos) {
         this.id = id;
         this.cliente = cliente;
         this.descripcion = descripcion;
         this.fechaCreacion = fechaCreacion;
         this.estadoSolicitud = estadoSolicitud;
         this.fechaCierre = fechaCierre;
-        this.tecnicoAsignado = tecnicoAsignado;
-        this.historial = new ArrayList<>(historial);
+        this.tecnicoAsignado = datos.tecnicoAsignado;
+        this.historial = new ArrayList<>(datos.historial);
+    }
+
+    @Getter
+    public static class DatosAdicionales {
+        private final Tecnico tecnicoAsignado;
+        private final List<EstadoChange> historial;
+
+        public DatosAdicionales(Tecnico tecnicoAsignado, List<EstadoChange> historial) {
+            this.tecnicoAsignado = tecnicoAsignado;
+            this.historial = historial;
+        }
     }
 
     public void cerrar() {

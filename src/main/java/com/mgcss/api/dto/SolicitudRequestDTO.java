@@ -1,7 +1,13 @@
 package com.mgcss.api.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Schema(description = "Datos de entrada para crear una solicitud")
 public class SolicitudRequestDTO {
 
@@ -11,27 +17,8 @@ public class SolicitudRequestDTO {
     @Schema(description = "Descripción de la incidencia", example = "Incidencia en la red interna")
     private String descripcion;
 
-    public SolicitudRequestDTO() {
-    }
-
     public SolicitudRequestDTO(Long clienteId, String descripcion) {
         this.clienteId = clienteId;
-        this.descripcion = descripcion;
-    }
-
-    public Long getClienteId() {
-        return clienteId;
-    }
-
-    public void setClienteId(Long clienteId) {
-        this.clienteId = clienteId;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 }

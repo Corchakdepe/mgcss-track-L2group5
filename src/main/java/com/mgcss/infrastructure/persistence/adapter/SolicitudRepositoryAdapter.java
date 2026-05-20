@@ -80,8 +80,7 @@ public class SolicitudRepositoryAdapter implements SolicitudRepository {
                 entity.getFechaCreacion(),
                 entity.getEstadoSolicitud(),
                 entity.getFechaCierre(),
-                tecnico,
-                historial
+                new Solicitud.DatosAdicionales(tecnico, historial)
         );
     }
 

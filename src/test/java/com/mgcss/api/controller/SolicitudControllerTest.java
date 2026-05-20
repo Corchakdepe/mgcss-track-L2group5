@@ -33,6 +33,7 @@ class SolicitudControllerTest {
     private MockMvc mockMvc;
 
     @MockitoBean
+    @SuppressWarnings("unused")
     private SolicitudService solicitudService;
 
     private ObjectMapper objectMapper;
@@ -92,7 +93,7 @@ class SolicitudControllerTest {
     @Test
     void asignarTecnico_devuelve200_conTecnicoAsignado() throws Exception {
         AsignarTecnicoRequestDTO request = new AsignarTecnicoRequestDTO(1L);
-        Solicitud solicitud = new Solicitud(1L, cliente, "Incidencia", LocalDate.now(), EN_PROCESO, null, tecnico, List.of());
+        Solicitud solicitud = new Solicitud(1L, cliente, "Incidencia", LocalDate.now(), EN_PROCESO, null, new Solicitud.DatosAdicionales(tecnico, List.of()));
 
         when(solicitudService.consultarSolicitud(1L)).thenReturn(solicitud);
 

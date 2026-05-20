@@ -15,6 +15,8 @@ import static com.mgcss.domain.model.EstadoSolicitud.ABIERTA;
 
 @Service
 public class SolicitudService {
+    private static final String SOLICITUD_NO_ENCONTRADA = "Solicitud no encontrada con id: ";
+
     private final SolicitudRepository solicitudRepository;
     private final TecnicoRepository tecnicoRepository;
     private final ClienteRepository clienteRepository;
@@ -34,7 +36,7 @@ public class SolicitudService {
 
     public Solicitud consultarSolicitud(Long id) {
         return solicitudRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Solicitud no encontrada con id: " + id));
+                .orElseThrow(() -> new IllegalArgumentException(SOLICITUD_NO_ENCONTRADA + id));
     }
 
     public void asignarTecnico(Long solicitudId, Long tecnicoId) {
@@ -49,14 +51,14 @@ public class SolicitudService {
 
     public Solicitud cambiarEstado(Long solicitudId) {
         Solicitud solicitud = solicitudRepository.findById(solicitudId)
-                .orElseThrow(() -> new IllegalArgumentException("Solicitud no encontrada con id: " + solicitudId));
+                .orElseThrow(() -> new IllegalArgumentException(SOLICITUD_NO_ENCONTRADA + solicitudId));
         solicitud.cerrar();
         return solicitudRepository.save(solicitud);
     }
 
     public Solicitud reabrirSolicitud(Long solicitudId) {
         Solicitud solicitud = solicitudRepository.findById(solicitudId)
-                .orElseThrow(() -> new IllegalArgumentException("Solicitud no encontrada con id: " + solicitudId));
+                .orElseThrow(() -> new IllegalArgumentException(SOLICITUD_NO_ENCONTRADA + solicitudId));
         solicitud.reabrir();
         return solicitudRepository.save(solicitud);
     }
