@@ -3,6 +3,7 @@ package com.mgcss.unit.service;
 import com.mgcss.domain.model.Cliente;
 import com.mgcss.domain.model.Solicitud;
 import com.mgcss.domain.model.Tecnico;
+import com.mgcss.domain.repository.ClienteRepository;
 import com.mgcss.domain.repository.SolicitudRepository;
 import com.mgcss.domain.repository.TecnicoRepository;
 import com.mgcss.service.SolicitudService;
@@ -21,6 +22,7 @@ import static org.mockito.Mockito.*;
 class SolicitudServiceTest {
     private static SolicitudRepository repoSolicitud;
     private static TecnicoRepository repoTecnico;
+    private static ClienteRepository repoCliente;
     private static SolicitudService sut;
     private static Solicitud solicitud;
     private static Tecnico tecnico;
@@ -31,7 +33,8 @@ class SolicitudServiceTest {
         // 1. Arrange: Crear mocks y datos
         repoSolicitud = mock(SolicitudRepository.class);
         repoTecnico = mock(TecnicoRepository.class);
-        sut = new SolicitudService(repoSolicitud, repoTecnico);
+        repoCliente = mock(ClienteRepository.class);
+        sut = new SolicitudService(repoSolicitud, repoTecnico, repoCliente);
         cliente = new Cliente(1L, "", "", STANDARD);
     }
 
@@ -70,4 +73,16 @@ class SolicitudServiceTest {
         // 3. Assert: Verificar que no hubo efectos secundarios
         verify(repoSolicitud, never()).save(solicitud);
     }
+
+    @Test
+    void deberCrearSolicitudCorrectamente() {
+        // Simular dependencias externas
+        when(repoCliente.findById(cliente.getId())).thenReturn(Optional.of(cliente));
+        when(repoSolicitud.save(any(Solicitud.class))).thenAnswer(i -> i.getArgument(0));
+        // 2. Act: Ejecutar servicio
+        Solicitud creada = sut.crearSolicitud(cliente.getId(), "");
+        // 3. Assert: Verificar la orquestacion
+        verify(repoSolicitud).save(creada);
+    }
+
 }

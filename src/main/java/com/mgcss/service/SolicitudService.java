@@ -21,4 +21,8 @@ public class SolicitudService {
         solicitud.asignar(tecnico);
         solicitudRepository.save(solicitud);
     }
+
+    public Solicitud crearSolicitud(Long id, String s) {
+        // @TODO
+    }
 }
