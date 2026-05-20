@@ -85,5 +85,13 @@ class SolicitudServiceTest {
         verify(repoSolicitud).save(solicitud);
     }
 
-    
+    @Test
+    void debeLanzarExcepcionSiNoEncuentraCliente() {
+        // No se simulan dependencias externas
+
+        // 2. Act: Ejecutar servicio esperando el fallo
+        assertThrows(IllegalArgumentException.class, () -> solicitud = sut.crearSolicitud(null, ""));
+        // 3. Assert: Verificar que no hubo efectos secundarios
+        verify(repoSolicitud, never()).save(solicitud);
+    }
 }
