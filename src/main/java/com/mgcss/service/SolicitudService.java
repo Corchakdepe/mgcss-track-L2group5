@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class SolicitudService {
     private final SolicitudRepository solicitudRepository;
     private final TecnicoRepository tecnicoRepository;
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
 
     public SolicitudService(SolicitudRepository solicitudRepository, TecnicoRepository tecnicoRepository, ClienteRepository clienteRepository) {
         this.solicitudRepository = solicitudRepository;
