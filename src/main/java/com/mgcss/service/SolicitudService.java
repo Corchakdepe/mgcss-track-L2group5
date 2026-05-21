@@ -41,6 +41,6 @@ public class SolicitudService {
     }
 
     public List<Solicitud> listarTodas() {
-        //TODO
+        return solicitudRepository.findAll();
     }
 }

@@ -132,6 +132,6 @@ class SolicitudServiceTest {
         // 3. Assert: Verificar la orquestacion
         verify(repoSolicitud).findAll();
         assertEquals(3, listaSolicitudes.size());
-        assertEquals(1L, listaSolicitudes.getFirst().getId());
+        assertEquals(1L, listaSolicitudes.get(0).getId());
     }
 }
