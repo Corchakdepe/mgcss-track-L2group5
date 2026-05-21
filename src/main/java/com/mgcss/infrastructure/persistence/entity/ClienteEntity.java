@@ -2,7 +2,6 @@ package com.mgcss.infrastructure.persistence.entity;
 
 import com.mgcss.domain.model.TipoCliente;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +10,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "Cliente")
 public class ClienteEntity {
-    @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cliente_id")

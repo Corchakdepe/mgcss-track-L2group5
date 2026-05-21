@@ -3,7 +3,6 @@ package com.mgcss.infrastructure.persistence.entity;
 import com.mgcss.domain.model.EstadoSolicitud;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +14,6 @@ import java.util.List;
 @Entity
 @Table(name = "Solicitud")
 public class SolicitudEntity {
-    @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "solicitud_id")
