@@ -46,10 +46,9 @@ public class SolicitudController {
     }
 
     @PatchMapping("/{id}/reabrir")
-    public ResponseEntity<SolicitudResponseDTO> reabrir(@PathVariable Long id) {
+    public ResponseEntity<Void> reabrir(@PathVariable Long id) {
         solicitudService.reabrirSolicitud(id);
-        Solicitud actualizada = solicitudService.buscarPorId(id);
-        return ResponseEntity.ok(SolicitudMapper.toResponseDTO(actualizada));
+        return ResponseEntity.ok(null);
     }
 
     @GetMapping
