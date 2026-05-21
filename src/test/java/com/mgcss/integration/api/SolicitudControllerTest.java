@@ -90,4 +90,11 @@ class SolicitudControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void reabrirSolicitud_DevuelveStatusOK() throws Exception {
+        doNothing().when(solicitudService).reabrirSolicitud(1L);
+        mockMvc.perform(patch("/api/solicitudes/1/reabrir"))
+                .andExpect(status().isOk());
+    }
+
 }
