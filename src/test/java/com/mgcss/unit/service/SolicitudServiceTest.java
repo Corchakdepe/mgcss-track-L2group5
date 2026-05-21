@@ -11,11 +11,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static com.mgcss.domain.model.EstadoSolicitud.ABIERTA;
 import static com.mgcss.domain.model.EstadoSolicitud.CERRADA;
 import static com.mgcss.domain.model.TipoCliente.STANDARD;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -114,5 +116,22 @@ class SolicitudServiceTest {
         assertThrows(IllegalArgumentException.class, () -> sut.buscarPorId(null));
         // 3. Assert: Verificar que no hubo efectos secundarios
         // Dado que es una operacion de busqueda, no se producen efectos secundarios ante un fallo
+    }
+
+    @Test
+    void debeListarSolicitudesCorrectamente() {
+        // Simular dependencias externas
+        when(repoSolicitud.findAll()).thenReturn(List.of(
+                        new Solicitud(1L, cliente, "", LocalDate.now(), ABIERTA, null),
+                        new Solicitud(2L, cliente, "", LocalDate.now(), ABIERTA, null),
+                        new Solicitud(3L, cliente, "", LocalDate.now(), ABIERTA, null)
+                )
+        );
+        // 2. Act: Ejecutar servicio
+        List<Solicitud> listaSolicitudes = sut.listarTodas();
+        // 3. Assert: Verificar la orquestacion
+        verify(repoSolicitud).findAll();
+        assertEquals(3, listaSolicitudes.size());
+        assertEquals(1L, listaSolicitudes.getFirst().getId());
     }
 }

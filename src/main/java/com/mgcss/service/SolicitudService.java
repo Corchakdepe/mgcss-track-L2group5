@@ -9,6 +9,7 @@ import com.mgcss.domain.repository.SolicitudRepository;
 import com.mgcss.domain.repository.TecnicoRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class SolicitudService {
     private final SolicitudRepository solicitudRepository;
@@ -37,5 +38,9 @@ public class SolicitudService {
 
     public Solicitud buscarPorId(Long solicitudId) {
         return solicitudRepository.findById(solicitudId).orElseThrow(() -> new IllegalArgumentException("Solicitud con ID: " + solicitudId + " no encontrada"));
+    }
+
+    public List<Solicitud> listarTodas() {
+        //TODO
     }
 }
