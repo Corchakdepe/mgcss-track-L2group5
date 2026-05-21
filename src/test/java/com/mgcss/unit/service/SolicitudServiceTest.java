@@ -144,4 +144,18 @@ class SolicitudServiceTest {
         // 3. Assert: Verificar la orquestación
         verify(repoSolicitud).save(argThat(Solicitud::estaCerrada));
     }
+
+    @Test
+    void debeReabrirSolicitudCorrectamente() {
+        // Simular dependencias externas
+        solicitud = new Solicitud(5L, cliente, "", LocalDate.now(), CERRADA, LocalDate.now());
+        when(repoSolicitud.findById(solicitud.getId())).thenReturn(Optional.of(solicitud));
+        // 2. Act: Ejecutar servicio
+        sut.reabrirSolicitud(solicitud.getId());
+        // 3. Assert: Verificar la orquestación
+        verify(repoSolicitud).save(argThat(
+                sol -> !sol.estaCerrada()
+                        && (sol.getHistorial().get(sol.getHistorial().size() - 1).getEstadoAnterior() == CERRADA)
+                        && (sol.getHistorial().get(sol.getHistorial().size() - 1).getEstadoNuevo() == EN_PROCESO)));
+    }
 }

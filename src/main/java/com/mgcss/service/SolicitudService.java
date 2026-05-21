@@ -49,4 +49,8 @@ public class SolicitudService {
         solicitud.cerrar();
         solicitudRepository.save(solicitud);
     }
+
+    public void reabrirSolicitud(Long solicitudId) {
+        //TODO
+    }
 }
