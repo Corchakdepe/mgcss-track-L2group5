@@ -1,7 +1,9 @@
 package com.mgcss.integration;
 
-import com.mgcss.infrastructure.persistence.entity.ClienteEntity;
+import com.mgcss.domain.model.Cliente;
+import com.mgcss.infrastructure.persistence.adapter.ClienteRepositoryAdapter;
 import com.mgcss.infrastructure.persistence.repository.JpaClienteRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +21,25 @@ class JpaClienteRepositoryIT {
     @Autowired
     private JpaClienteRepository repository;
 
+    private ClienteRepositoryAdapter adapter;
+
+    @BeforeEach
+    void setUp() {
+        adapter = new ClienteRepositoryAdapter(repository);
+    }
+
     @Test
     void guardaYRecuperaCliente() {
-        ClienteEntity entity = new ClienteEntity();
-
         // Guardamos la entidad del cliente
-        entity.setNombre("Cliente 1");
-        entity.setEmail("Cliente1@mail");
-        entity.setTipoCliente(STANDARD);
-        repository.save(repository.save(entity));
+        Cliente cliente = new Cliente(null, "Cliente 1", "cliente1@mail.com", STANDARD);
+        Cliente guardado = adapter.save(cliente);
 
-        ClienteEntity saved = repository.save(entity);
-        Optional<ClienteEntity> found = repository.findById(saved.getId());
+        // Recuperamos el cliente mapeado
+        Optional<Cliente> encontrado = adapter.findById(guardado.getId());
 
-        assertThat(found).isPresent();
-        assertThat(found.get().getEmail()).isEqualTo("Cliente1@mail");
+        // Verificamos estado
+        assertThat(encontrado).isPresent();
+        assertThat(encontrado.get().getEmail()).isEqualTo(cliente.getEmail());
     }
 
 }
