@@ -19,7 +19,7 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
 
     @Override
     public Cliente save(Cliente cliente) {
-        // Mapeo a entidad usando su constructor
+        // Mapeo a entidad usando setters
         ClienteEntity entity = new ClienteEntity();
         entity.setId(cliente.getId());
         entity.setNombre(cliente.getNombre());

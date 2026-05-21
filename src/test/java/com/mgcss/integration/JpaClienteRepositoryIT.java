@@ -30,7 +30,7 @@ class JpaClienteRepositoryIT {
 
     @Test
     void guardaYRecuperaCliente() {
-        // Guardamos la entidad del cliente
+        // Guardamos el cliente
         Cliente cliente = new Cliente(null, "Cliente 1", "cliente1@mail.com", STANDARD);
         Cliente guardado = adapter.save(cliente);
 
