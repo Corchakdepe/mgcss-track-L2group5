@@ -19,6 +19,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -57,4 +58,15 @@ class SolicitudControllerTest {
                 .andExpect(jsonPath("$.descripcion").value("Error en el servidor"))
                 .andExpect(jsonPath("$.estadoSolicitud").value("ABIERTA"));
     }
+
+    @Test
+    void consultarPorIdExistente_DevuelveStatusOK() throws Exception {
+        Mockito.when(solicitudService.buscarPorId(1L)).thenReturn(solicitudMock);
+        mockMvc.perform(get("/api/solicitudes/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.estadoSolicitud").value("ABIERTA"));
+    }
+
+
 }
