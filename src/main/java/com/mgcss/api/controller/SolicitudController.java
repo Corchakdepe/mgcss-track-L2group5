@@ -34,16 +34,15 @@ public class SolicitudController {
     }
 
     @PutMapping("/{id}/tecnico")
-    public ResponseEntity<SolicitudResponseDTO> asignarTecnico(@PathVariable Long id, @RequestParam Long tecnicoId) {
+    public ResponseEntity<Void> asignarTecnico(@PathVariable Long id, @RequestParam Long tecnicoId) {
         solicitudService.asignarTecnico(id, tecnicoId);
         return ResponseEntity.ok(null);
     }
 
     @PutMapping("/{id}/cerrar")
-    public ResponseEntity<SolicitudResponseDTO> cerrar(@PathVariable Long id) {
+    public ResponseEntity<Void> cerrar(@PathVariable Long id) {
         solicitudService.cerrarSolicitud(id);
-        Solicitud actualizada = solicitudService.buscarPorId(id);
-        return ResponseEntity.ok(SolicitudMapper.toResponseDTO(actualizada));
+        return ResponseEntity.ok(null);
     }
 
     @PatchMapping("/{id}/reabrir")
