@@ -36,6 +36,6 @@ public class SolicitudService {
     }
 
     public Solicitud buscarPorId(Long solicitudId) {
-        return solicitudRepository.findById(solicitudId).get();//.orElseThrow(() -> new IllegalArgumentException("Solicitud con ID: " + solicitudId + " no encontrada"));
+        return solicitudRepository.findById(solicitudId).orElseThrow(() -> new IllegalArgumentException("Solicitud con ID: " + solicitudId + " no encontrada"));
     }
 }
