@@ -23,6 +23,7 @@ public class Solicitud {
     private EstadoSolicitud estadoSolicitud;
     @Getter
     private LocalDate fechaCierre;
+    @Getter
     private Tecnico tecnicoAsignado;
 
     public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, LocalDate fechaCierre) {
