@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doNothing;
@@ -102,4 +103,12 @@ class SolicitudControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void listarSolicitudes_DevuelveListaYStatusOk() throws Exception {
+        when(solicitudService.listarTodas()).thenReturn(List.of(solicitudSimulada));
+        mockMvc.perform(get("/api/solicitudes"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(solicitudSimulada.getId()))
+                .andExpect(jsonPath("$.length()").value(1));
+    }
 }
