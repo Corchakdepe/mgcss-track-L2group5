@@ -153,9 +153,6 @@ class SolicitudServiceTest {
         // 2. Act: Ejecutar servicio
         sut.reabrirSolicitud(solicitud.getId());
         // 3. Assert: Verificar la orquestación
-        verify(repoSolicitud).save(argThat(
-                sol -> !sol.estaCerrada()
-                        && (sol.getHistorial().get(sol.getHistorial().size() - 1).getEstadoAnterior() == CERRADA)
-                        && (sol.getHistorial().get(sol.getHistorial().size() - 1).getEstadoNuevo() == EN_PROCESO)));
+        verify(repoSolicitud).save(argThat(Solicitud::seHaReabierto));
     }
 }

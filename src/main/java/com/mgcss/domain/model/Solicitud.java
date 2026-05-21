@@ -86,7 +86,26 @@ public class Solicitud {
                 fechaCierre != null);
     }
 
+    public boolean seHaReabierto() {
+        int ultimo = historial.size() - 1;
+        return !estaCerrada()
+                &&
+                tieneHistorial()
+                &&
+                deCerradaAEnProceso(historial.get(ultimo));
+    }
+
     private void cambiarEstado(EstadoSolicitud anterior, EstadoSolicitud nuevo) {
         historial.add(new EstadoChange(anterior, nuevo));
+    }
+
+    private boolean tieneHistorial() {
+        return !historial.isEmpty();
+    }
+
+    private boolean deCerradaAEnProceso(EstadoChange cambio) {
+        return cambio.getEstadoAnterior() == EstadoSolicitud.CERRADA
+                &&
+                cambio.getEstadoNuevo() == EstadoSolicitud.EN_PROCESO;
     }
 }
