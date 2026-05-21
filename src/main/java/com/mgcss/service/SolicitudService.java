@@ -44,7 +44,9 @@ public class SolicitudService {
         return solicitudRepository.findAll();
     }
 
-    public void cerrarSolicitud(Long id) {
-        //TODO
+    public void cerrarSolicitud(Long solicitudId) {
+        Solicitud solicitud = solicitudRepository.findById(solicitudId).orElseThrow(() -> new IllegalArgumentException("Solicitud no encontrada"));
+        solicitud.cerrar();
+        solicitudRepository.save(solicitud);
     }
 }
