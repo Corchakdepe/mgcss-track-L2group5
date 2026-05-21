@@ -105,4 +105,14 @@ class SolicitudServiceTest {
         // 3. Assert: Verificar la orquestacion
         verify(repoSolicitud).findById(solicitud.getId());
     }
+
+    @Test
+    void debeLanzarExcepcionSiNoEncuentraSolicitud() {
+        // No se simulan dependencias externas
+
+        // 2. Act: Ejecutar servicio esperando el fallo
+        assertThrows(IllegalArgumentException.class, () -> sut.buscarPorId(null));
+        // 3. Assert: Verificar que no hubo efectos secundarios
+        // Dado que es una operacion de busqueda, no se producen efectos secundarios ante un fallo
+    }
 }
