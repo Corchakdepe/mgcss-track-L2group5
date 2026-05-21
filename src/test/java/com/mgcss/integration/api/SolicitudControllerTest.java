@@ -7,9 +7,9 @@ import com.mgcss.domain.model.EstadoSolicitud;
 import com.mgcss.domain.model.Solicitud;
 import com.mgcss.domain.model.TipoCliente;
 import com.mgcss.service.SolicitudService;
+import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -19,6 +19,8 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -48,7 +50,7 @@ class SolicitudControllerTest {
     @Test
     void crearSolicitud_DevuelveStatusCreatedYJson() throws Exception {
         SolicitudRequestDTO request = new SolicitudRequestDTO(1L, "Error en el servidor");
-        Mockito.when(solicitudService.crearSolicitud(1L, "Error en el servidor")).thenReturn(solicitudMock);
+        when(solicitudService.crearSolicitud(1L, "Error en el servidor")).thenReturn(solicitudMock);
 
         mockMvc.perform(post("/api/solicitudes")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -61,11 +63,17 @@ class SolicitudControllerTest {
 
     @Test
     void consultarPorIdExistente_DevuelveStatusOK() throws Exception {
-        Mockito.when(solicitudService.buscarPorId(1L)).thenReturn(solicitudMock);
+        when(solicitudService.buscarPorId(1L)).thenReturn(solicitudMock);
         mockMvc.perform(get("/api/solicitudes/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.estadoSolicitud").value("ABIERTA"));
+    }
+
+    @Test
+    void consultarPorIdInexistente_DevuelveBadRequest() {
+        when(solicitudService.buscarPorId(-1L)).thenThrow(new IllegalArgumentException("La solicitud no existe"));
+        assertThrows(ServletException.class, () -> mockMvc.perform(get("/api/solicitudes/-1")));
     }
 
 
