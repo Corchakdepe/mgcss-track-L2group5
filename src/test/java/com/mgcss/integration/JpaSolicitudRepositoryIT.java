@@ -3,13 +3,13 @@ package com.mgcss.integration;
 import com.mgcss.domain.model.Cliente;
 import com.mgcss.domain.model.Solicitud;
 import com.mgcss.domain.model.Tecnico;
+import com.mgcss.infrastructure.persistence.adapter.SolicitudRepositoryAdapter;
 import com.mgcss.infrastructure.persistence.entity.ClienteEntity;
-import com.mgcss.infrastructure.persistence.entity.EstadoChangeEntity;
-import com.mgcss.infrastructure.persistence.entity.SolicitudEntity;
 import com.mgcss.infrastructure.persistence.entity.TecnicoEntity;
 import com.mgcss.infrastructure.persistence.repository.JpaClienteRepository;
 import com.mgcss.infrastructure.persistence.repository.JpaSolicitudRepository;
 import com.mgcss.infrastructure.persistence.repository.JpaTecnicoRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +33,15 @@ class JpaSolicitudRepositoryIT {
     @Autowired
     private JpaTecnicoRepository repositoryTecnico;
 
+    private SolicitudRepositoryAdapter adapter;
+
+    @BeforeEach
+    void setUp() {
+        adapter = new SolicitudRepositoryAdapter(repositorySolicitud, repositoryCliente, repositoryTecnico);
+    }
+
     @Test
     void guardaYRecuperaSolicitud() {
-        SolicitudEntity solicitudEntity = new SolicitudEntity();
         ClienteEntity clienteEntity = new ClienteEntity();
 
         // Guardamos la entidad del cliente
@@ -44,22 +50,21 @@ class JpaSolicitudRepositoryIT {
         clienteEntity.setTipoCliente(STANDARD);
         repositoryCliente.save(repositoryCliente.save(clienteEntity));
 
-        // Guardamos la entidad de solicitud
-        solicitudEntity.setCliente(clienteEntity);
-        solicitudEntity.setDescripcion("Incidencia de red");
-        solicitudEntity.setFechaCreacion(LocalDate.now());
-        solicitudEntity.setEstadoSolicitud(ABIERTA);
+        // Guardamos la solicitud a traves del adaptador
+        Cliente cliente = new Cliente(clienteEntity.getId(), clienteEntity.getNombre(), clienteEntity.getEmail(), clienteEntity.getTipoCliente());
+        Solicitud solicitud = new Solicitud(null, cliente, "Incidencia de red", LocalDate.now(), ABIERTA, null);
+        Solicitud guardada = adapter.save(solicitud);
 
-        SolicitudEntity saved = repositorySolicitud.save(solicitudEntity);
-        Optional<SolicitudEntity> found = repositorySolicitud.findById(saved.getId());
+        // Recuperamos la solicitud guardada
+        Optional<Solicitud> encontrada = adapter.findById(guardada.getId());
 
-        assertThat(found).isPresent();
-        assertThat(found.get().getDescripcion()).isEqualTo("Incidencia de red");
+        // Verificamos estado
+        assertThat(encontrada).isPresent();
+        assertThat(encontrada.get().getDescripcion()).isEqualTo(solicitud.getDescripcion());
     }
 
     @Test
     void persisteYRecuperaHistorico() {
-        SolicitudEntity solicitudEntity = new SolicitudEntity();
         ClienteEntity clienteEntity = new ClienteEntity();
         TecnicoEntity tecnicoEntity = new TecnicoEntity();
 
@@ -83,29 +88,22 @@ class JpaSolicitudRepositoryIT {
         solicitud.cerrar(); // Cambio 2
         solicitud.reabrir(); // Cambio 3
 
-        // Guardamos la entidad de la solicitud
-        solicitudEntity.setCliente(clienteSaved);
-        solicitudEntity.setDescripcion(solicitud.getDescripcion());
-        solicitudEntity.setFechaCreacion(solicitud.getFechaCreacion());
-        solicitudEntity.setEstadoSolicitud(solicitud.getEstadoSolicitud());
-        solicitudEntity.setFechaCierre(solicitud.getFechaCierre());
-        solicitudEntity.setTecnicoAsignado(tecnicoSaved);
-        var historialEntity = solicitud.getHistorial().stream().map(estadoChange -> new EstadoChangeEntity(estadoChange.getEstadoAnterior(), estadoChange.getEstadoNuevo())).toList();
-        solicitudEntity.setHistorial(historialEntity);
-        SolicitudEntity solicitudSaved = repositorySolicitud.save(solicitudEntity);
+        // Guardamos la solicitud a traves del adapter
+        Solicitud guardada = adapter.save(solicitud);
 
         // Recuperamos la solicitud mapeada
-        Optional<SolicitudEntity> found = repositorySolicitud.findById(solicitudSaved.getId());
+        Optional<Solicitud> encontrada = adapter.findById(guardada.getId());
 
         // Verificamos si el mapeo se ha llevado a cabo correcatemente
         var historial = solicitud.getHistorial();
         int numeroDeCambiosEstado = historial.size();
-        assertThat(found).isPresent();
-        assertThat(found.get().getHistorial()).hasSize(numeroDeCambiosEstado);
+        assertThat(encontrada).isPresent();
+        assertThat(encontrada.get().getHistorial()).hasSameSizeAs(historial);
 
+        var historialEncontrado = encontrada.get().getHistorial();
         for (int i = 0; i < numeroDeCambiosEstado; i++) {
-            assertThat(historialEntity.get(i).getEstadoAnterior()).isEqualTo(historial.get(i).getEstadoAnterior());
-            assertThat(historialEntity.get(i).getEstadoNuevo()).isEqualTo(historial.get(i).getEstadoNuevo());
+            assertThat(historialEncontrado.get(i).getEstadoAnterior()).isEqualTo(historial.get(i).getEstadoAnterior());
+            assertThat(historialEncontrado.get(i).getEstadoNuevo()).isEqualTo(historial.get(i).getEstadoNuevo());
         }
     }
 
