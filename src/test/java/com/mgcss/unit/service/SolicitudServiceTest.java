@@ -94,4 +94,15 @@ class SolicitudServiceTest {
         // 3. Assert: Verificar que no hubo efectos secundarios
         verify(repoSolicitud, never()).save(solicitud);
     }
+
+    @Test
+    void debeBuscarSolicitudCorrectamente() {
+        // Simular dependencias externas
+        solicitud = new Solicitud(3L, cliente, "", LocalDate.now(), ABIERTA, null);
+        when(repoSolicitud.findById(solicitud.getId())).thenReturn(Optional.of(solicitud));
+        // 2. Act: Ejecutar servicio
+        solicitud = sut.buscarPorId(solicitud.getId());
+        // 3. Assert: Verificar la orquestacion
+        verify(repoSolicitud).findById(solicitud.getId());
+    }
 }

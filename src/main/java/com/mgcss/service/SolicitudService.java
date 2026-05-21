@@ -34,4 +34,8 @@ public class SolicitudService {
         Solicitud solicitud = new Solicitud(null, cliente, descripcion, LocalDate.now(), EstadoSolicitud.ABIERTA, null);
         return solicitudRepository.save(solicitud);
     }
+
+    public Solicitud buscarPorId(Long id) {
+        //TODO
+    }
 }
