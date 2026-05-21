@@ -80,6 +80,12 @@ public class Solicitud {
         return tecnicoAsignado != null;
     }
 
+    public boolean estaCerrada() {
+        return (estadoSolicitud == EstadoSolicitud.CERRADA
+                &&
+                fechaCierre != null);
+    }
+
     private void cambiarEstado(EstadoSolicitud anterior, EstadoSolicitud nuevo) {
         historial.add(new EstadoChange(anterior, nuevo));
     }

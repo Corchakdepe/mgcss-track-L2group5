@@ -16,7 +16,8 @@ import java.util.Optional;
 
 import static com.mgcss.domain.model.EstadoSolicitud.*;
 import static com.mgcss.domain.model.TipoCliente.STANDARD;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class SolicitudServiceTest {
@@ -141,6 +142,6 @@ class SolicitudServiceTest {
         // 2. Act: Ejecutar servicio
         sut.cerrarSolicitud(solicitud.getId());
         // 3. Assert: Verificar la orquestación
-        verify(repoSolicitud).save(argThat(sol -> sol.getEstadoSolicitud() == CERRADA && sol.getFechaCierre() != null));
+        verify(repoSolicitud).save(argThat(Solicitud::estaCerrada));
     }
 }
