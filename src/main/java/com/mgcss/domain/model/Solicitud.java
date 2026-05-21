@@ -26,6 +26,17 @@ public class Solicitud {
     @Getter
     private Tecnico tecnicoAsignado;
 
+    public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, Tecnico tecnico, LocalDate fechaCierre) {
+        this.id = id;
+        this.cliente = cliente;
+        this.descripcion = descripcion;
+        this.fechaCreacion = fechaCreacion;
+        this.estadoSolicitud = estadoSolicitud;
+        this.tecnicoAsignado = tecnico;
+        this.fechaCierre = fechaCierre;
+        this.historial = new ArrayList<>();
+    }
+
     public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, LocalDate fechaCierre) {
         this.id = id;
         this.cliente = cliente;
@@ -36,6 +47,7 @@ public class Solicitud {
         tecnicoAsignado = null;
         historial = new ArrayList<>();
     }
+
 
     public void cerrar() {
         if (estadoSolicitud != EstadoSolicitud.EN_PROCESO) {
