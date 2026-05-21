@@ -35,7 +35,7 @@ public class SolicitudService {
         return solicitudRepository.save(solicitud);
     }
 
-    public Solicitud buscarPorId(Long id) {
-        //TODO
+    public Solicitud buscarPorId(Long solicitudId) {
+        return solicitudRepository.findById(solicitudId).get();//.orElseThrow(() -> new IllegalArgumentException("Solicitud con ID: " + solicitudId + " no encontrada"));
     }
 }
