@@ -45,7 +45,7 @@ public class SolicitudService {
     }
 
     public void cerrarSolicitud(Long solicitudId) {
-        Solicitud solicitud = solicitudRepository.findById(solicitudId).orElseThrow(() -> new IllegalArgumentException("Solicitud no encontrada"));
+        Solicitud solicitud = buscarPorId(solicitudId);
         solicitud.cerrar();
         solicitudRepository.save(solicitud);
     }
