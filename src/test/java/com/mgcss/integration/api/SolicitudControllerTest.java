@@ -20,9 +20,9 @@ import tools.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -76,5 +76,11 @@ class SolicitudControllerTest {
         assertThrows(ServletException.class, () -> mockMvc.perform(get("/api/solicitudes/-1")));
     }
 
+    @Test
+    void asignarTecnico_DevuelveStatusOK() throws Exception {
+        doNothing().when(solicitudService).asignarTecnico(1L, 2L);
+        mockMvc.perform(put("/api/solicitudes/1/tecnico").param("tecnicoId", "2"))
+                .andExpect(status().isOk());
+    }
 
 }
