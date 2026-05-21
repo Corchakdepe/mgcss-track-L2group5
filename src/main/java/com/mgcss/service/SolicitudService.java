@@ -43,4 +43,8 @@ public class SolicitudService {
     public List<Solicitud> listarTodas() {
         return solicitudRepository.findAll();
     }
+
+    public void cerrarSolicitud(Long id) {
+        //TODO
+    }
 }

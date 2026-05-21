@@ -14,11 +14,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static com.mgcss.domain.model.EstadoSolicitud.ABIERTA;
-import static com.mgcss.domain.model.EstadoSolicitud.CERRADA;
+import static com.mgcss.domain.model.EstadoSolicitud.*;
 import static com.mgcss.domain.model.TipoCliente.STANDARD;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class SolicitudServiceTest {
@@ -133,5 +131,16 @@ class SolicitudServiceTest {
         verify(repoSolicitud).findAll();
         assertEquals(3, listaSolicitudes.size());
         assertEquals(1L, listaSolicitudes.get(0).getId());
+    }
+
+    @Test
+    void debeCerrarSolicitudCorrectamente() {
+        // Simular dependencias externas
+        solicitud = new Solicitud(4L, cliente, "", LocalDate.now(), EN_PROCESO, null);
+        when(repoSolicitud.findById(solicitud.getId())).thenReturn(Optional.of(solicitud));
+        // 2. Act: Ejecutar servicio
+        sut.cerrarSolicitud(solicitud.getId());
+        // 3. Assert: Verificar la orquestación
+        verify(repoSolicitud).save(argThat(sol -> sol.getEstadoSolicitud() == CERRADA && sol.getFechaCierre() != null));
     }
 }
