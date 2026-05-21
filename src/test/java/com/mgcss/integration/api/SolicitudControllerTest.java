@@ -38,36 +38,41 @@ class SolicitudControllerTest {
     @MockitoBean
     private SolicitudService solicitudService;
 
-    private Cliente clienteMock;
-    private Solicitud solicitudMock;
+    private Solicitud solicitudSimulada;
 
     @BeforeEach
     void setUp() {
-        clienteMock = new Cliente(1L, "Juan Perez", "juan@mgcss.com", TipoCliente.STANDARD);
-        solicitudMock = new Solicitud(1L, clienteMock, "Error en el servidor", LocalDate.now(), EstadoSolicitud.ABIERTA, null, null);
+        Cliente clienteSimulado = new Cliente(1L, "Jose Gomez", "josegomez@mgcss.com", TipoCliente.STANDARD);
+        solicitudSimulada = new Solicitud(1L,
+                clienteSimulado,
+                "Router roto",
+                LocalDate.now(),
+                EstadoSolicitud.ABIERTA,
+                null,
+                null);
     }
 
     @Test
     void crearSolicitud_DevuelveStatusCreatedYJson() throws Exception {
-        SolicitudRequestDTO request = new SolicitudRequestDTO(1L, "Error en el servidor");
-        when(solicitudService.crearSolicitud(1L, "Error en el servidor")).thenReturn(solicitudMock);
+        SolicitudRequestDTO request = new SolicitudRequestDTO(solicitudSimulada.getId(), solicitudSimulada.getDescripcion());
+        when(solicitudService.crearSolicitud(solicitudSimulada.getId(), solicitudSimulada.getDescripcion())).thenReturn(solicitudSimulada);
 
         mockMvc.perform(post("/api/solicitudes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.descripcion").value("Error en el servidor"))
-                .andExpect(jsonPath("$.estadoSolicitud").value("ABIERTA"));
+                .andExpect(jsonPath("$.id").value(solicitudSimulada.getId()))
+                .andExpect(jsonPath("$.descripcion").value(solicitudSimulada.getDescripcion()))
+                .andExpect(jsonPath("$.estadoSolicitud").value(solicitudSimulada.getEstadoSolicitud().toString()));
     }
 
     @Test
     void consultarPorIdExistente_DevuelveStatusOK() throws Exception {
-        when(solicitudService.buscarPorId(1L)).thenReturn(solicitudMock);
+        when(solicitudService.buscarPorId(solicitudSimulada.getId())).thenReturn(solicitudSimulada);
         mockMvc.perform(get("/api/solicitudes/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.estadoSolicitud").value("ABIERTA"));
+                .andExpect(jsonPath("$.id").value(solicitudSimulada.getId()))
+                .andExpect(jsonPath("$.estadoSolicitud").value(solicitudSimulada.getEstadoSolicitud().toString()));
     }
 
     @Test
@@ -78,21 +83,21 @@ class SolicitudControllerTest {
 
     @Test
     void asignarTecnico_DevuelveStatusOK() throws Exception {
-        doNothing().when(solicitudService).asignarTecnico(1L, 2L);
+        doNothing().when(solicitudService).asignarTecnico(solicitudSimulada.getId(), 2L);
         mockMvc.perform(put("/api/solicitudes/1/tecnico").param("tecnicoId", "2"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void cerrarSolicitud_DevuelveStatusOK() throws Exception {
-        doNothing().when(solicitudService).cerrarSolicitud(1L);
+        doNothing().when(solicitudService).cerrarSolicitud(solicitudSimulada.getId());
         mockMvc.perform(put("/api/solicitudes/1/cerrar"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void reabrirSolicitud_DevuelveStatusOK() throws Exception {
-        doNothing().when(solicitudService).reabrirSolicitud(1L);
+        doNothing().when(solicitudService).reabrirSolicitud(solicitudSimulada.getId());
         mockMvc.perform(patch("/api/solicitudes/1/reabrir"))
                 .andExpect(status().isOk());
     }
