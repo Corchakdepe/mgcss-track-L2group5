@@ -1,7 +1,9 @@
 package com.mgcss.integration;
 
-import com.mgcss.infrastructure.persistence.entity.TecnicoEntity;
+import com.mgcss.domain.model.Tecnico;
+import com.mgcss.infrastructure.persistence.adapter.TecnicoRepositoryAdapter;
 import com.mgcss.infrastructure.persistence.repository.JpaTecnicoRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +20,25 @@ class JpaTecnicoRepositoryIT {
     @Autowired
     private JpaTecnicoRepository repository;
 
+    private TecnicoRepositoryAdapter adapter;
+
+    @BeforeEach
+    void setUp() {
+        adapter = new TecnicoRepositoryAdapter(repository);
+    }
+
     @Test
     void guardaYRecuperaTecnico() {
-        TecnicoEntity entity = new TecnicoEntity();
+        // Guardamos el tecnico
+        Tecnico tecnico = new Tecnico(null, "Tecnico 1", "Redes", true);
+        Tecnico guardado = adapter.save(tecnico);
 
-        // Guardamos la entidad del cliente
-        entity.setNombre("Tecnico 1");
-        entity.setEspecialidad("Redes");
-        entity.setActivo(true);
-        repository.save(repository.save(entity));
+        // Recuperamos el tecnico mapeado
+        Optional<Tecnico> encontrado = adapter.findById(guardado.getId());
 
-        TecnicoEntity saved = repository.save(entity);
-        Optional<TecnicoEntity> found = repository.findById(saved.getId());
-
-        assertThat(found).isPresent();
-        assertThat(found.get().getNombre()).isEqualTo("Tecnico 1");
+        // Verificamos estado
+        assertThat(encontrado).isPresent();
+        assertThat(encontrado.get().getNombre()).isEqualTo(tecnico.getNombre());
     }
 
 }
