@@ -2,46 +2,35 @@ package com.mgcss.api.dto;
 
 import com.mgcss.domain.model.EstadoSolicitud;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class SolicitudResponseDTO {
 
-    private final Long id;
+    private Long id;
 
-    private final Long clienteId;
+    private Long clienteId;
 
-    private final String clienteNombre;
+    private String clienteNombre;
 
-    private final String descripcion;
+    private String descripcion;
 
-    private final LocalDate fechaCreacion;
+    private LocalDate fechaCreacion;
 
-    private final EstadoSolicitud estadoSolicitud;
+    private EstadoSolicitud estadoSolicitud;
 
-    private final Long tecnicoId;
+    private Long tecnicoId;
 
-    private final String tecnicoNombre;
+    private String tecnicoNombre;
 
-    private final LocalDate fechaCierre;
+    private LocalDate fechaCierre;
 
-    private final List<EstadoChangeDTO> historial;
-
-    public SolicitudResponseDTO(Long id, Long clienteId, String clienteNombre, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, Long tecnicoId, String tecnicoNombre, LocalDate fechaCierre, List<EstadoChangeDTO> historial) {
-        this.id = id;
-        this.clienteId = clienteId;
-        this.clienteNombre = clienteNombre;
-        this.descripcion = descripcion;
-        this.fechaCreacion = fechaCreacion;
-        this.estadoSolicitud = estadoSolicitud;
-        this.tecnicoId = tecnicoId;
-        this.tecnicoNombre = tecnicoNombre;
-        this.fechaCierre = fechaCierre;
-        // Evitamos fugas de mutabilidad encapsulando la lista externa
-        this.historial = historial != null ? List.copyOf(historial) : Collections.emptyList();
-    }
+    private List<EstadoChangeDTO> historial;
 
 }
