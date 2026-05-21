@@ -36,8 +36,7 @@ public class SolicitudController {
     @PutMapping("/{id}/tecnico")
     public ResponseEntity<SolicitudResponseDTO> asignarTecnico(@PathVariable Long id, @RequestParam Long tecnicoId) {
         solicitudService.asignarTecnico(id, tecnicoId);
-        Solicitud actualizada = solicitudService.buscarPorId(id);
-        return ResponseEntity.ok(SolicitudMapper.toResponseDTO(actualizada));
+        return ResponseEntity.ok(null);
     }
 
     @PutMapping("/{id}/cerrar")
