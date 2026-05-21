@@ -51,6 +51,8 @@ public class SolicitudService {
     }
 
     public void reabrirSolicitud(Long solicitudId) {
-        //TODO
+        Solicitud solicitud = buscarPorId(solicitudId);
+        solicitud.reabrir();
+        solicitudRepository.save(solicitud);
     }
 }
