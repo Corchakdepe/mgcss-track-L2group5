@@ -83,4 +83,11 @@ class SolicitudControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void cerrarSolicitud_DevuelveStatusOK() throws Exception {
+        doNothing().when(solicitudService).cerrarSolicitud(1L);
+        mockMvc.perform(put("/api/solicitudes/1/cerrar"))
+                .andExpect(status().isOk());
+    }
+
 }
