@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static com.mgcss.domain.model.TipoCliente.STANDARD;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @Tag("integration")
@@ -40,6 +41,12 @@ class JpaClienteRepositoryIT {
         // Verificamos estado
         assertThat(encontrado).isPresent();
         assertThat(encontrado.get().getEmail()).isEqualTo(cliente.getEmail());
+    }
+
+    @Test
+    void noDevuelveNadaSinCliente() {
+        Optional<Cliente> recuperado = adapter.findById(999L);
+        assertTrue(recuperado.isEmpty());
     }
 
 }
