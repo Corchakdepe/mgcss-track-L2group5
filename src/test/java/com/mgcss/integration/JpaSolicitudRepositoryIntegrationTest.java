@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @Tag("integration")
-class JpaSolicitudRepositoryIT {
+class JpaSolicitudRepositoryIntegrationTest {
 
     @Autowired
     private JpaSolicitudRepository repositorySolicitud;
