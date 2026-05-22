@@ -12,6 +12,7 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @Tag("integration")
@@ -39,6 +40,18 @@ class JpaTecnicoRepositoryIT {
         // Verificamos estado
         assertThat(encontrado).isPresent();
         assertThat(encontrado.get().getNombre()).isEqualTo(tecnico.getNombre());
+    }
+
+    @Test
+    void guardaYActualizaTecnico() {
+        Tecnico tecnico = new Tecnico(null, "Técnico Inicial", "Sistemas", true);
+        Tecnico guardado = adapter.save(tecnico);
+
+        // Simular actualización con nuevo constructor
+        Tecnico tecnicoAActualizar = new Tecnico(guardado.getId(), "Técnico Actualizado", guardado.getEspecialidad(), guardado.estaActivo());
+        Tecnico actualizado = adapter.save(tecnicoAActualizar);
+
+        assertEquals("Técnico Actualizado", actualizado.getNombre());
     }
 
 }
