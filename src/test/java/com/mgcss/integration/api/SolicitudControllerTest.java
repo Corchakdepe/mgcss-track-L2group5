@@ -1,12 +1,14 @@
 package com.mgcss.integration.api;
 
 import com.mgcss.api.controller.SolicitudController;
+import com.mgcss.api.dto.EstadoChangeDTO;
 import com.mgcss.api.dto.SolicitudRequestDTO;
 import com.mgcss.domain.model.Cliente;
 import com.mgcss.domain.model.EstadoSolicitud;
 import com.mgcss.domain.model.Solicitud;
 import com.mgcss.domain.model.TipoCliente;
 import com.mgcss.service.SolicitudService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,5 +111,12 @@ class SolicitudControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(solicitudSimulada.getId()))
                 .andExpect(jsonPath("$.length()").value(1));
+    }
+
+    @Test
+    void debeMapearEstadoChangeDtoCorrectamente() {
+        EstadoChangeDTO dto = new EstadoChangeDTO(EstadoSolicitud.ABIERTA, EstadoSolicitud.EN_PROCESO);
+        Assertions.assertEquals(EstadoSolicitud.ABIERTA, dto.getEstadoAnterior());
+        Assertions.assertEquals(EstadoSolicitud.EN_PROCESO, dto.getEstadoNuevo());
     }
 }
