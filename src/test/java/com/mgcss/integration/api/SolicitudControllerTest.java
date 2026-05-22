@@ -21,8 +21,7 @@ import tools.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -88,6 +87,29 @@ class SolicitudControllerTest {
         doNothing().when(solicitudService).asignarTecnico(solicitudSimulada.getId(), 2L);
         mockMvc.perform(put("/api/solicitudes/1/tecnico").param("tecnicoId", "2"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void asignarTecnicoASolicitudCerrada_DevuelveStatusBadRequest() throws Exception {
+        Solicitud solicitudCerrada = new Solicitud(
+                -1L,
+                solicitudSimulada.getCliente(),
+                solicitudSimulada.getDescripcion(),
+                solicitudSimulada.getFechaCreacion(),
+                EstadoSolicitud.CERRADA,
+                LocalDate.now()
+        );
+
+        doThrow(new IllegalStateException("Solo se puede asignar a solicitudes abiertas")).when(solicitudService).asignarTecnico(solicitudCerrada.getId(), 2L);
+        mockMvc.perform(put("/api/solicitudes/-1/tecnico").param("tecnicoId", "2"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void asignarTecnicoInexistente_DevuelveStatusNotFound() throws Exception {
+        doThrow(new IllegalArgumentException("Tecnico no existe en el sistema")).when(solicitudService).asignarTecnico(solicitudSimulada.getId(), -1L);
+        mockMvc.perform(put("/api/solicitudes/1/tecnico").param("tecnicoId", "-1"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
