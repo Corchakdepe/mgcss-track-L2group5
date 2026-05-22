@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @Tag("integration")
@@ -52,6 +53,12 @@ class JpaTecnicoRepositoryIT {
         Tecnico actualizado = adapter.save(tecnicoAActualizar);
 
         assertEquals("Técnico Actualizado", actualizado.getNombre());
+    }
+
+    @Test
+    void noDevuelveNadaSinTecnico() {
+        Optional<Tecnico> recuperado = adapter.findById(999L);
+        assertTrue(recuperado.isEmpty());
     }
 
 }
