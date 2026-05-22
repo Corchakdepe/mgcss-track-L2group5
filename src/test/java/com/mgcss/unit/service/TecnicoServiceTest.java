@@ -22,11 +22,11 @@ class TecnicoServiceTest {
     }
 
     @Test
-    void debeCrearClienteCorrectamente() {
+    void debeCrearTecnicoCorrectamente() {
         // Simular dependencias externas
         when(repoTecnico.save(any(Tecnico.class))).thenAnswer(i -> i.getArgument(0));
         // 2. Act: Ejecutar servicio
-        Tecnico tecnico = sut.crearTecnico("Jesus Diaz", "jesusdiaz@mail.com");
+        Tecnico tecnico = sut.crearTecnico("Jesus Diaz", "Redes");
         // 3. Assert: Verificar la orquestacion
         verify(repoTecnico).save(tecnico);
     }
