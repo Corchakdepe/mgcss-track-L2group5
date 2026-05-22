@@ -7,7 +7,7 @@ import com.mgcss.domain.repository.ClienteRepository;
 import com.mgcss.domain.repository.SolicitudRepository;
 import com.mgcss.domain.repository.TecnicoRepository;
 import com.mgcss.service.SolicitudService;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -29,8 +29,8 @@ class SolicitudServiceTest {
     private static Tecnico tecnico;
     private static Cliente cliente;
 
-    @BeforeAll
-    static void beforeAll() {
+    @BeforeEach
+    void setUp() {
         // 1. Arrange: Crear mocks y datos
         repoSolicitud = mock(SolicitudRepository.class);
         repoTecnico = mock(TecnicoRepository.class);
