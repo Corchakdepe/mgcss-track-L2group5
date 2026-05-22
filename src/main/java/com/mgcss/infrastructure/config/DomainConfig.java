@@ -5,6 +5,7 @@ import com.mgcss.domain.repository.SolicitudRepository;
 import com.mgcss.domain.repository.TecnicoRepository;
 import com.mgcss.service.ClienteService;
 import com.mgcss.service.SolicitudService;
+import com.mgcss.service.TecnicoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,5 +24,10 @@ public class DomainConfig {
     @Bean
     public ClienteService clienteService(ClienteRepository clienteRepository) {
         return new ClienteService(clienteRepository);
+    }
+
+    @Bean
+    public TecnicoService tecnicoService(TecnicoRepository tecnicoRepository) {
+        return new TecnicoService(tecnicoRepository);
     }
 }
