@@ -3,14 +3,14 @@ package com.mgcss.api.mapper;
 import com.mgcss.api.dto.EstadoChangeDTO;
 import com.mgcss.api.dto.SolicitudResponseDTO;
 import com.mgcss.domain.model.Solicitud;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SolicitudMapper {
-
-    private SolicitudMapper() {
-    }
 
     public static SolicitudResponseDTO toResponseDTO(Solicitud solicitud) {
         if (solicitud == null) return null;
