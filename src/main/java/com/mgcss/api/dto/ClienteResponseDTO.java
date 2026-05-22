@@ -9,10 +9,10 @@ import lombok.Getter;
 public class ClienteResponseDTO extends CommonResponseDTO {
 
     @Schema(description = "Dirección de correo electrónico del cliente", example = "juan.perez@mgcss.com")
-    private String email;
+    private final String email;
 
     @Schema(description = "Tipo o categoría de prioridad asignada al cliente dentro del dominio")
-    private TipoCliente tipoCliente;
+    private final TipoCliente tipoCliente;
 
     public ClienteResponseDTO() {
         super(0L, "");
