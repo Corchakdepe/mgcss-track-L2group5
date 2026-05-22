@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static com.mgcss.domain.model.TipoCliente.STANDARD;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
@@ -41,6 +42,18 @@ class JpaClienteRepositoryIT {
         // Verificamos estado
         assertThat(encontrado).isPresent();
         assertThat(encontrado.get().getEmail()).isEqualTo(cliente.getEmail());
+    }
+
+    @Test
+    void guardaYActualizaCliente() {
+        Cliente cliente = new Cliente(null, "Cliente Inicial", "inicial@example.com", STANDARD);
+        Cliente guardado = adapter.save(cliente);
+
+        // Al no tener setters, para actualizarlo tenemos que usar de nuevo su constructor simulando un cambio de nombre
+        Cliente clientePorActualizar = new Cliente(guardado.getId(), "Cliente Actualizado", guardado.getEmail(), guardado.getTipoCliente());
+        Cliente actualizado = adapter.save(clientePorActualizar);
+
+        assertEquals("Cliente Actualizado", actualizado.getNombre());
     }
 
     @Test
