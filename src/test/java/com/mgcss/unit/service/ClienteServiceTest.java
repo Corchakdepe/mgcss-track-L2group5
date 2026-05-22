@@ -3,6 +3,7 @@ package com.mgcss.unit.service;
 import com.mgcss.domain.model.Cliente;
 import com.mgcss.domain.repository.ClienteRepository;
 import com.mgcss.service.ClienteService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -13,11 +14,15 @@ class ClienteServiceTest {
     private static ClienteRepository repoCliente;
     private static ClienteService sut;
 
-    @Test
-    void debeCrearClienteCorrectamente() {
+    @BeforeAll
+    static void setUp() {
         // 1. Arrange: Crear mocks y datos
         repoCliente = mock(ClienteRepository.class);
         sut = new ClienteService(repoCliente);
+    }
+
+    @Test
+    void debeCrearClienteCorrectamente() {
         // Simular dependencias externas
         when(repoCliente.save(any(Cliente.class))).thenAnswer(i -> i.getArgument(0));
         // 2. Act: Ejecutar servicio
