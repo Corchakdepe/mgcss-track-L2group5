@@ -7,7 +7,6 @@ import com.mgcss.domain.model.EstadoSolicitud;
 import com.mgcss.domain.model.Solicitud;
 import com.mgcss.domain.model.TipoCliente;
 import com.mgcss.service.SolicitudService;
-import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import tools.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -77,9 +75,10 @@ class SolicitudControllerTest {
     }
 
     @Test
-    void consultarPorIdInexistente_DevuelveBadRequest() {
+    void consultarPorIdInexistente_DevuelveStatusNotFound() throws Exception {
         when(solicitudService.buscarPorId(-1L)).thenThrow(new IllegalArgumentException("La solicitud no existe"));
-        assertThrows(ServletException.class, () -> mockMvc.perform(get("/api/solicitudes/-1")));
+        mockMvc.perform(get("/api/solicitudes/-1"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
