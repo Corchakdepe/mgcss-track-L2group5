@@ -14,12 +14,6 @@ public class ClienteResponseDTO extends CommonResponseDTO {
     @Schema(description = "Tipo o categoría de prioridad asignada al cliente dentro del dominio")
     private final TipoCliente tipoCliente;
 
-    public ClienteResponseDTO() {
-        super(0L, "");
-        email = "";
-        tipoCliente = null;
-    }
-
     public ClienteResponseDTO(Long id, String nombre, String email, TipoCliente tipoCliente) {
         super(id, nombre);
         this.email = email;

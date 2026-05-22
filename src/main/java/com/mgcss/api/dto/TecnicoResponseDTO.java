@@ -13,12 +13,6 @@ public class TecnicoResponseDTO extends CommonResponseDTO {
     @Schema(description = "Disponibilidad del tecnico para resolver incidencias", example = "true")
     private final boolean activo;
 
-    public TecnicoResponseDTO() {
-        super(0L, "");
-        especialidad = "";
-        activo = true;
-    }
-
     public TecnicoResponseDTO(Long id, String nombre, String especialidad, boolean activo) {
         super(id, nombre);
         this.especialidad = especialidad;
