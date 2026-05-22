@@ -21,6 +21,7 @@ import java.util.Optional;
 import static com.mgcss.domain.model.EstadoSolicitud.ABIERTA;
 import static com.mgcss.domain.model.TipoCliente.STANDARD;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 @Tag("integration")
@@ -105,6 +106,12 @@ class JpaSolicitudRepositoryIT {
             assertThat(historialEncontrado.get(i).getEstadoAnterior()).isEqualTo(historial.get(i).getEstadoAnterior());
             assertThat(historialEncontrado.get(i).getEstadoNuevo()).isEqualTo(historial.get(i).getEstadoNuevo());
         }
+    }
+
+    @Test
+    void fallaAlGuardarSinCliente() {
+        Solicitud solicitud = new Solicitud(null, null, "Sin cliente", LocalDate.now(), ABIERTA, null, null);
+        assertThrows(IllegalArgumentException.class, () -> adapter.save(solicitud));
     }
 
 }
