@@ -3,9 +3,11 @@ package com.mgcss.api.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 @Schema(description = "Modelo para la creación de una nueva solicitud")
 public class SolicitudRequestDTO {
 
@@ -17,8 +19,4 @@ public class SolicitudRequestDTO {
     @Schema(description = "Descripción detallada del problema o incidencia", example = "El servidor de base de datos no responde")
     private String descripcion;
 
-    public SolicitudRequestDTO(Long clienteId, String descripcion) {
-        this.clienteId = clienteId;
-        this.descripcion = descripcion;
-    }
 }
