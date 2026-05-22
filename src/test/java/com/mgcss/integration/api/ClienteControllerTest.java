@@ -40,17 +40,17 @@ class ClienteControllerTest {
 
     @Test
     void crearCliente_DevuelveStatusCreatedYJson() throws Exception {
-        ClienteRequestDTO request = new ClienteRequestDTO("Carlos Gomez", "carlos@mgcss.com");
+        ClienteRequestDTO request = new ClienteRequestDTO(clienteSimulado.getNombre(), clienteSimulado.getEmail());
 
-        when(clienteService.crearCliente("Carlos Gomez", "carlos@mgcss.com")).thenReturn(clienteSimulado);
+        when(clienteService.crearCliente(clienteSimulado.getNombre(), clienteSimulado.getEmail())).thenReturn(clienteSimulado);
 
         mockMvc.perform(post("/api/clientes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.nombre").value("Carlos Gomez"))
-                .andExpect(jsonPath("$.email").value("carlos@mgcss.com"));
+                .andExpect(jsonPath("$.id").value(clienteSimulado.getId()))
+                .andExpect(jsonPath("$.nombre").value(clienteSimulado.getNombre()))
+                .andExpect(jsonPath("$.email").value(clienteSimulado.getEmail()));
     }
 
 }
