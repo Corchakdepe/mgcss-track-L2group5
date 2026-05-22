@@ -22,6 +22,7 @@ import static com.mgcss.domain.model.EstadoSolicitud.ABIERTA;
 import static com.mgcss.domain.model.TipoCliente.STANDARD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @Tag("integration")
@@ -114,4 +115,10 @@ class JpaSolicitudRepositoryIT {
         assertThrows(IllegalArgumentException.class, () -> adapter.save(solicitud));
     }
 
+    @Test
+    void fallaAlGuardarConTecnicoInexistente() {
+        Cliente cliente = new Cliente(999L, "Falso", null, STANDARD);
+        Solicitud solicitud = new Solicitud(null, cliente, "Test", LocalDate.now(), ABIERTA, null, null);
+        assertThrows(RuntimeException.class, () -> adapter.save(solicitud));
+    }
 }
