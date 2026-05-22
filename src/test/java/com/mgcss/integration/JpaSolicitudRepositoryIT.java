@@ -121,4 +121,10 @@ class JpaSolicitudRepositoryIT {
         Solicitud solicitud = new Solicitud(null, cliente, "Test", LocalDate.now(), ABIERTA, null, null);
         assertThrows(RuntimeException.class, () -> adapter.save(solicitud));
     }
+
+    @Test
+    void noDevuelveNadaSinSolicitud() {
+        Optional<Solicitud> recuperada = adapter.findById(888L);
+        assertTrue(recuperada.isEmpty());
+    }
 }
