@@ -1,0 +1,10 @@
+.git/
+.github/
+.idea/
+*.iml
+.mvn/
+mvnw
+mvnw.cmd
+README.md
+docs/
+src/
