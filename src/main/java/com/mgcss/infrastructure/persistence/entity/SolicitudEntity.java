@@ -3,11 +3,11 @@ package com.mgcss.infrastructure.persistence.entity;
 import com.mgcss.domain.model.EstadoSolicitud;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "Solicitud")
 public class SolicitudEntity {
-    @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "solicitud_id")
@@ -45,6 +44,6 @@ public class SolicitudEntity {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "solicitud_historial", joinColumns = @JoinColumn(name = "solicitud_id"))
-    private List<EstadoChangeEntity> historial;
+    private List<EstadoChangeEntity> historial = new ArrayList<>();
 
 }

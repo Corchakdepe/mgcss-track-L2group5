@@ -6,24 +6,29 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+// SOLO GETTERS (Cero Setters)
+@Getter
 public class Solicitud {
 
-    // SOLO GETTERS (Cero Setters)
-    @Getter
     private final Long id;
-    @Getter
     private final Cliente cliente;
-    @Getter
     private final String descripcion;
-    @Getter
     private final LocalDate fechaCreacion;
-    @Getter
     private final List<EstadoChange> historial;
-    @Getter
     private EstadoSolicitud estadoSolicitud;
-    @Getter
     private LocalDate fechaCierre;
     private Tecnico tecnicoAsignado;
+
+    public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, Tecnico tecnico, LocalDate fechaCierre) {
+        this.id = id;
+        this.cliente = cliente;
+        this.descripcion = descripcion;
+        this.fechaCreacion = fechaCreacion;
+        this.estadoSolicitud = estadoSolicitud;
+        this.tecnicoAsignado = tecnico;
+        this.fechaCierre = fechaCierre;
+        this.historial = new ArrayList<>();
+    }
 
     public Solicitud(Long id, Cliente cliente, String descripcion, LocalDate fechaCreacion, EstadoSolicitud estadoSolicitud, LocalDate fechaCierre) {
         this.id = id;
@@ -35,6 +40,7 @@ public class Solicitud {
         tecnicoAsignado = null;
         historial = new ArrayList<>();
     }
+
 
     public void cerrar() {
         if (estadoSolicitud != EstadoSolicitud.EN_PROCESO) {
@@ -80,7 +86,32 @@ public class Solicitud {
         return tecnicoAsignado != null;
     }
 
+    public boolean estaCerrada() {
+        return (estadoSolicitud == EstadoSolicitud.CERRADA
+                &&
+                fechaCierre != null);
+    }
+
+    public boolean seHaReabierto() {
+        int ultimo = historial.size() - 1;
+        return !estaCerrada()
+                &&
+                tieneHistorial()
+                &&
+                deCerradaAEnProceso(historial.get(ultimo));
+    }
+
     private void cambiarEstado(EstadoSolicitud anterior, EstadoSolicitud nuevo) {
         historial.add(new EstadoChange(anterior, nuevo));
+    }
+
+    private boolean tieneHistorial() {
+        return !historial.isEmpty();
+    }
+
+    private boolean deCerradaAEnProceso(EstadoChange cambio) {
+        return cambio.getEstadoAnterior() == EstadoSolicitud.CERRADA
+                &&
+                cambio.getEstadoNuevo() == EstadoSolicitud.EN_PROCESO;
     }
 }

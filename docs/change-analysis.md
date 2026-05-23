@@ -20,3 +20,21 @@ La clase `Solicitud` debe incluir una estructura de datos interna que almacene o
 
 ### 5. ¿Qué impacto tiene en persistencia?
 Es necesario mapear la nueva relación del histórico de cambios de estado en la base de datos, probablemente mediante una tabla secundaria vinculada.
+
+# Análisis de Impacto - Change Request: API REST and DTO / Entity division
+
+### 1. ¿Qué métodos del dominio se ven afectados?
+Afecta a las entidades `SolicitudService` y `SolicitudRepository`:
+* Métodos para listar todas las solicitudes.
+
+### 2. ¿Qué reglas actuales cambian?
+* 
+
+### 3. ¿Qué tests deberían romperse?
+Aquellos implementados en `JpaSolicitudRepositoryIT`.
+
+### 4. ¿Qué parte del modelo debe extenderse?
+Todas las clases relativas al funcionamiento de la API REST y DTO's de `Solicitud`.
+
+### 5. ¿Qué impacto tiene en persistencia?
+Es necesario mapear DTO al dominio.
