@@ -51,8 +51,8 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker tag mgcss-track:${{ github.ref_name }} ${{ secrets.DOCKER_USERNAME }}/mgcss-track:${{ github.ref_name }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/mgcss-track:${{ github.ref_name }}
+          docker tag mgcss-track:${{ github.ref_name }} ${{ secrets.DOCKER_USERNAME }}/mgcss-track-l2group5:${{ github.ref_name }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/mgcss-track-l2group5:${{ github.ref_name }}
 
       - name: Create Release
         uses: softprops/action-gh-release@v2

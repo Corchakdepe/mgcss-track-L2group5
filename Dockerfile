@@ -1,6 +1,6 @@
-FROM eclipse-temurin:17-jre-alpine
-RUN addgroup -S nonroot \
-    && adduser -S nonroot -G nonroot
+FROM eclipse-temurin:17-jre
+RUN groupadd --system nonroot \
+    && useradd --system --no-create-home -g nonroot nonroot
 WORKDIR /app
 COPY target/*.jar app.jar
 USER nonroot

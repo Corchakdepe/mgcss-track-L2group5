@@ -3,6 +3,7 @@
 **Asignatura:** Mantenimiento y Gestión del Cambio en Sistemas Software (MGCSS)  
 **Curso:** 2025/26 — 4º Grado en Ingeniería Informática  
 **Grupo:** L2group5  
+**Autores:** Corchakdepe, ifram  
 **Repositorio:** [jdc99/mgcss-track-L2group5](https://github.com/jdc99/mgcss-track-L2group5)
 
 ---
@@ -96,6 +97,9 @@ Documentada en `README.md`:
 | `main` | Versión estable y protegida. Requiere PR obligatorio. |
 | `feature/*` | Ramas de desarrollo para nuevas funcionalidades. |
 | `refactor/*` | Ramas de refactorización de código. |
+| `ci/*` | Ramas de integración y despliegue continuo. |
+| `release/*` | Ramas de revisión y preparación de releases. |
+| `docs/*` | Ramas de documentación técnica. |
 
 **Convención de commits:** Conventional Commits (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `chore:`).
 
@@ -313,10 +317,19 @@ Documentada en `README.md`:
 **Sesiones 12-13:** Release management, CD, auditoría.
 
 | Fecha | Commit | Tipo | Descripción |
-|---|---|---|---|
+|---|---|---|---|---|
 | 29-05 | `6fa95ac` | `documentation:` | added `release-notes.md` for v1.1.0 |
 | 29-05 | `ddac84a` | `ci:` | add automated release workflow (`release.yml`) |
 | 29-05 | `40669e1` | `docs:` + `ci:` | add release-notes.md for v1.1.0, add Docker Hub push to release workflow |
+| 02-06 | `ee709ec` | `doc:` | add release-notes.md (ifram) |
+| 02-06 | `c51a786` | `chore:` | add release.yml (ifram) |
+| 02-06 | `e2fccff` | `fix:` | fixed security hotspot |
+| 02-06 | `0da3118` | `refactor:` | improved security logic |
+| 02-06 | `5ecffed` | `fix:` | ensuring sonars quality |
+| 02-06 | `bc399ec` | `fix:` | use mvn instead of mvnw |
+| 02-06 | `5f4b56e` | `chore:` | implement docker hub integration |
+| 02-06 | `cce329f` | `fix:` | typo |
+| 02-06 | `576f031` | `doc:` | update README.md |
 
 **Workflow de Release (`release.yml`):**
 1. **Quality Gate** (tests + Sonar) — obligatorio pasar
@@ -325,6 +338,8 @@ Documentada en `README.md`:
 **Tags creados:**
 - `v1.0.0` — Primera release estable
 - `v1.1.0` — MINOR bump: Dockerfile feature
+
+**Rama `ci/automatizacion-release`:** El compañero `ifram` continuó el trabajo de automatización del release en una rama separada (`ci/automatizacion-release`), añadiendo mejoras de seguridad (hotspot), integración con Docker Hub, corrección del comando Maven (`mvn` vs `mvnw`) y calidad Sonar. Sus commits se mergearon en `main` el 02-06-2026 (PR #42).
 
 ---
 
@@ -356,7 +371,12 @@ Documentada en `README.md`:
 - **Problema:** Tests existentes dejaron de pasar tras añadir nuevas entidades y cambios en `Solicitud`.
 - **Solución:** Se corrigieron los tests en `bef0288`.
 
-### 6.7 Fallo de SonarCloud por dependencia spring-h2console
+### 6.7 Security hotspot en Sonar (02-06)
+- **Problema:** Sonar detectó un security hotspot que bloqueaba el Quality Gate.
+- **Solución:** Se aplicaron mejoras de seguridad (`e2fccff`) y se verificó la calidad (`5ecffed`).
+- **Corrección adicional:** Se cambió `mvnw` por `mvn` en el workflow de release (`bc399ec`) para compatibilidad.
+
+### 6.8 Fallo de SonarCloud por dependencia spring-h2console
 - **Problema:** SonarCloud no reconoce la dependencia `spring-boot-h2console` (no disponible en su catálogo).
 - **Solución:** Se ignoró esta dependencia puntual al no afectar a la compilación ni ejecución.
 
