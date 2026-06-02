@@ -33,8 +33,14 @@ jobs:
       - name: Generar artefacto (.jar)
         run: mvn -B clean package -DskipTests
 
-      - name: Construir Imagen Docker
-        run: docker build -t mgcss-track-l2group5:${{ github.ref_name }} .
+      - name: Login, Construir y Subir Imagen a Docker Hub
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        run: |
+          echo "DOCKER_PASSWORD" | docker login -u "DOCKER_USERNAME" --password-stdin
+          docker build -t DOCKER_USERNAME/mgcss-track-l2group5:${{ github.ref_name }} .
+          docker push DOCKER_USERNAME/mgcss-track-l2group5:${{ github.ref_name }}
 
       - name: Publicar Release en GitHub y adjuntar artefacto
         uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
