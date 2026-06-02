@@ -31,8 +31,7 @@ jobs:
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=jdc99_mgcss-track-L2group5 -Dsonar.branch.name=main -Dsonar.qualitygate.wait=true
 
       - name: Generar artefacto (.jar)
-        # Añadimos skipTests porque el Quality Gate ya los acaba de ejecutar
-        run: ./mvnw clean package -DskipTests
+        run: mvn -B clean package -DskipTests
 
       - name: Construir Imagen Docker
         run: docker build -t mgcss-track-l2group5:${{ github.ref_name }} .
