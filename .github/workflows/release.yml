@@ -3,7 +3,7 @@ name: Release Workflow
 on:
   push:
     tags:
-      - 'v*' # Se dispara solo al subir un tag
+      - 'v*'
 
 jobs:
   build-and-release:
@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout del código
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Requisito para SonarCloud
 
       - name: Configurar Java 17
         uses: actions/setup-java@v4
@@ -22,8 +24,15 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      # PASO DE SEGURIDAD (Quality Gate)
+      - name: Ejecutar Tests y Quality Gate de SonarCloud
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=jdc99_mgcss-track-L2group5 -Dsonar.qualitygate.wait=true
+
       - name: Generar artefacto (.jar)
-        run: ./mvnw clean package
+        # Añadimos skipTests porque el Quality Gate ya los acaba de ejecutar
+        run: ./mvnw clean package -DskipTests
 
       - name: Construir Imagen Docker
         run: docker build -t mgcss-track-l2group5:${{ github.ref_name }} .
