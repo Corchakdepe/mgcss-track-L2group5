@@ -1,0 +1,49 @@
+name: Release Workflow
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Requisito para SonarCloud
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      # PASO DE SEGURIDAD (Quality Gate)
+      - name: Ejecutar Tests y Quality Gate de SonarCloud
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=jdc99_mgcss-track-L2group5 -Dsonar.branch.name=main -Dsonar.qualitygate.wait=true
+
+      - name: Generar artefacto (.jar)
+        run: mvn -B clean package -DskipTests
+
+      - name: Login, Construir y Subir Imagen a Docker Hub
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker build -t $DOCKER_USERNAME/mgcss-track-l2group5:${{ github.ref_name }} .
+          docker push $DOCKER_USERNAME/mgcss-track-l2group5:${{ github.ref_name }}
+
+      - name: Publicar Release en GitHub y adjuntar artefacto
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
+        with:
+          files: target/*.jar
+          generate_release_notes: true
