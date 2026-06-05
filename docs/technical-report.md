@@ -95,16 +95,17 @@ Para ejecutar la aplicación en un entorno de validación **no es necesario desc
 * **Para Opción A:** Tener instalado Docker Desktop o Docker Engine.
 * **Para Opción B:** Tener instalado Java 17 (JRE o JDK).
 
-### Opción A: Despliegue mediante Docker Hub (Recomendado)
+### Instalación y ejecucion
+#### Opción A: Despliegue mediante Docker Hub (Recomendado)
 Nuestro pipeline construye y publica automáticamente las imágenes versionadas en Docker Hub. Para descargar y ejecutar la aplicación de forma contenerizada en un solo paso, abre tu terminal y ejecuta:
 
 ```
 docker pull jesus1199/mgcss-track-l2group5:<tag-name>
 docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod jesus1199/mgcss-track-l2group5:<tag-name> 
 ```
-###### _nota: sustituye <tag-name> por el nombre de la ultima entrega disponible en github_
+###### _nota: sustituye `<tag-name>` por el nombre de la ultima entrega disponible en github_
 
-### Opción B: Ejecución nativa desde GitHub Releases
+#### Opción B: Ejecución nativa desde GitHub Releases
 Si prefieres no usar un entorno Docker, puedes ejecutar el artefacto binario generado por nuestro pipeline:
 
 -   Navega a la página de Releases de nuestro repositorio en GitHub.
@@ -115,4 +116,7 @@ Abre una terminal en el directorio donde se encuentre el .jar descargado y ejecu
 ```
 java -jar <nombre-del-ejecutable>.jar
 ```
-###### _nota: sustituye <tag-name> por el nombre de la ultima entrega disponible en github_ y <nombre-del-ejecutable> por el nombre que le hayas dado al descargar.
+###### _nota: sustituye `<tag-name>` por el nombre de la ultima entrega disponible en github_ y `<nombre-del-ejecutable>` por el nombre que le hayas dado al descargar.
+
+### Uso
+De forma común a ambas opciones, para probar la demo ejecutable accede en tu navegador a: `http://localhost:8080/swagger-ui/index.html` 
