@@ -102,7 +102,7 @@ Nuestro pipeline construye y publica automáticamente las imágenes versionadas 
 docker pull jesus1199/mgcss-track-l2group5:<tag-name>
 docker run -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod jesus1199/mgcss-track-l2group5:<tag-name> 
 ```
-###### _nota: sustituye <tag-name> por el nombre de la ultima entrega disponible en github_
+###### _nota: sustituye `<tag-name>` por el nombre de la ultima entrega disponible en github_
 
 ### Opción B: Ejecución nativa desde GitHub Releases
 Si prefieres no usar un entorno Docker, puedes ejecutar el artefacto binario generado por nuestro pipeline:
@@ -115,4 +115,4 @@ Abre una terminal en el directorio donde se encuentre el .jar descargado y ejecu
 ```
 java -jar <nombre-del-ejecutable>.jar
 ```
-###### _nota: sustituye <tag-name> por el nombre de la ultima entrega disponible en github_ y <nombre-del-ejecutable> por el nombre que le hayas dado al descargar.
+###### _nota: sustituye `<tag-name>` por el nombre de la ultima entrega disponible en github_ y `<nombre-del-ejecutable>` por el nombre que le hayas dado al descargar.
