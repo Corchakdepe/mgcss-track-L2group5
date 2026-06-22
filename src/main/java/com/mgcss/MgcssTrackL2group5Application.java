@@ -10,7 +10,7 @@ public class MgcssTrackL2group5Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MgcssTrackL2group5Application.class, args);
-		log.debug("no hace nada es solo una prueba 2");
+		log.debug("no hace nada es solo una prueba 3");
 
 	}
 
