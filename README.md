@@ -6,6 +6,8 @@
 ## Pequeño comentario:
 
 Todos lo requisitos pedidos se han complido, muchas gracias
+Si has llegado hasta aqui es porque mi pull request ha sido rechazado.
+
 
 ## Calificadores de calidad
 [![Java CI](https://github.com/jdc99/mgcss-track-L2group5/actions/workflows/ci.yml/badge.svg)](https://github.com/jdc99/mgcss-track-L2group5/actions/workflows/ci.yml)
