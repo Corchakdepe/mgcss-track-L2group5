@@ -26,7 +26,7 @@ jobs:
       - name: Construir con Maven
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Corchakdepe_mgcss-track-L2group5 -Dsonar.organization=Corchakdepe
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Corchakdepe_mgcss-track-L2group5 -Dsonar.organization=Corchakdepe -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
       - name: Upload test results
         if: always()
