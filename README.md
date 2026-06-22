@@ -3,6 +3,10 @@
 ## Memoria Tecnica
 [Breve descripcion del proyecto asi como su proceso de desarrollo y ejecucion.](docs/technical-report.md)
 
+## Prueba de modificación
+
+Se han añadidos algunas lineas aqui para probar todo, parece que tiene buena pinta. Un buen dia.
+
 ## Calificadores de calidad
 [![Java CI](https://github.com/jdc99/mgcss-track-L2group5/actions/workflows/ci.yml/badge.svg)](https://github.com/jdc99/mgcss-track-L2group5/actions/workflows/ci.yml)
 
