@@ -28,7 +28,7 @@ jobs:
       - name: Ejecutar Tests y Quality Gate de SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=jdc99_mgcss-track-L2group5 -Dsonar.branch.name=main -Dsonar.qualitygate.wait=true
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Corchakdepe_mgcss-track-L2group5 -Dsonar.branch.name=main -Dsonar.qualitygate.wait=true
 
       - name: Generar artefacto (.jar)
         run: mvn -B clean package -DskipTests
